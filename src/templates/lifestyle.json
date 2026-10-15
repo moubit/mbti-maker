@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "id": "lifestyle-starter",
+  "site": {
+    "title": "万能MBTI生成器",
+    "subtitle": "把好奇，\n变成一场测试。",
+    "description": "先用 16 道题，看看你的生活玩家类型。也可以点开编辑，把字母、倾向、题目和评语换成自己的想法。",
+    "disclaimer": "这是一个自定义倾向测试示例，仅供娱乐与自我探索，不是专业心理测评。",
+    "resultIntro": "你的生活玩家图鉴",
+    "startLabel": "开始体验测试",
+    "themeColor": "#167d6f"
+  },
+  "settings": {
+    "scalePoints": 7,
+    "scaleLabels": [
+      "很不同意",
+      "不同意",
+      "不太同意",
+      "中立",
+      "比较同意",
+      "同意",
+      "非常同意"
+    ],
+    "perPage": 4,
+    "selection": "all",
+    "perPole": 2,
+    "shuffle": false,
+    "showEditor": true
+  },
+  "dimensions": [
+    {
+      "id": "rhythm",
+      "name": "生活节奏",
+      "role": "main",
+      "tiePoleId": "right",
+      "poles": [
+        {
+          "id": "left",
+          "code": "A",
+          "name": "即兴派",
+          "description": "你喜欢给生活留一点空白。临时起意的散步、意外发现的小店，常常比计划里的目的地更有意思。"
+        },
+        {
+          "id": "right",
+          "code": "B",
+          "name": "计划派",
+          "description": "你享受一切准备妥当的安心感。把想做的事写下来，再一件件实现，是你安排生活的方式。"
+        }
+      ]
+    },
+    {
+      "id": "energy",
+      "name": "能量来源",
+      "role": "main",
+      "tiePoleId": "right",
+      "poles": [
+        {
+          "id": "left",
+          "code": "C",
+          "name": "同频玩家",
+          "description": "你从交流中获得灵感。把一个念头讲给朋友听，它往往就变成了另一个更有意思的念头。"
+        },
+        {
+          "id": "right",
+          "code": "D",
+          "name": "独处玩家",
+          "description": "安静是你的充电器。独处时，你能听清自己的想法，也更容易专注于真正喜欢的事情。"
+        }
+      ]
+    },
+    {
+      "id": "exploration",
+      "name": "探索偏好",
+      "role": "main",
+      "tiePoleId": "right",
+      "poles": [
+        {
+          "id": "left",
+          "code": "X",
+          "name": "尝鲜派",
+          "description": "新路线、新口味、新爱好，总有一样让你好奇。即使偶尔踩雷，你仍然愿意再试一次。"
+        },
+        {
+          "id": "right",
+          "code": "Y",
+          "name": "深耕派",
+          "description": "你知道自己喜欢什么，也愿意花时间把它了解透。熟悉的事物里，藏着只有你能发现的新细节。"
+        }
+      ]
+    },
+    {
+      "id": "decision",
+      "name": "判断方式",
+      "role": "main",
+      "tiePoleId": "right",
+      "poles": [
+        {
+          "id": "left",
+          "code": "M",
+          "name": "分析派",
+          "description": "做决定时，你喜欢先把理由和证据摆出来。理清选项之间的差别，能让你更放心地迈出下一步。"
+        },
+        {
+          "id": "right",
+          "code": "N",
+          "name": "感受派",
+          "description": "你会留意一个决定带来的感受，也在意它对身边人的影响。合适的选择，往往也要让心里觉得踏实。"
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "q-1",
+      "dimensionId": "rhythm",
+      "poleId": "left",
+      "text": "周末没有安排时，我会觉得充满可能。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-2",
+      "dimensionId": "rhythm",
+      "poleId": "right",
+      "text": "出门旅行前，我喜欢把行程提前安排好。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-3",
+      "dimensionId": "energy",
+      "poleId": "left",
+      "text": "和朋友聊天之后，我通常会更有精神。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-4",
+      "dimensionId": "energy",
+      "poleId": "right",
+      "text": "忙碌一天后，我更想独处一会儿。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-5",
+      "dimensionId": "exploration",
+      "poleId": "left",
+      "text": "遇到没尝过的食物，我通常愿意试试看。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-6",
+      "dimensionId": "exploration",
+      "poleId": "right",
+      "text": "我喜欢把一项熟悉的爱好研究得更深入。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-7",
+      "dimensionId": "rhythm",
+      "poleId": "left",
+      "text": "临时改变计划，有时会让我觉得更有趣。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-8",
+      "dimensionId": "rhythm",
+      "poleId": "right",
+      "text": "完成待办清单上的事情，会让我很满足。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-9",
+      "dimensionId": "energy",
+      "poleId": "left",
+      "text": "有了新想法，我很想马上找人交流。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-10",
+      "dimensionId": "energy",
+      "poleId": "right",
+      "text": "一个人散步、看书或听音乐，就能让我恢复状态。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-11",
+      "dimensionId": "exploration",
+      "poleId": "left",
+      "text": "我愿意换一条没走过的路，看看有什么新发现。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-12",
+      "dimensionId": "exploration",
+      "poleId": "right",
+      "text": "比起不断换新事物，我更享受熟能生巧的过程。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-13",
+      "dimensionId": "decision",
+      "poleId": "left",
+      "text": "面对重要选择，我会先列出各个选项的利弊。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-14",
+      "dimensionId": "decision",
+      "poleId": "right",
+      "text": "做决定时，我很在意相关的人会有什么感受。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-15",
+      "dimensionId": "decision",
+      "poleId": "left",
+      "text": "比起第一感觉，我更愿意依据明确的信息作判断。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q-16",
+      "dimensionId": "decision",
+      "poleId": "right",
+      "text": "即使理由充分，如果心里觉得不舒服，我也会再想一想。",
+      "weight": 1,
+      "required": false
+    }
+  ],
+  "profiles": [
+    {
+      "id": "profile-acxm",
+      "match": {
+        "rhythm": "left",
+        "energy": "left",
+        "exploration": "left",
+        "decision": "left"
+      },
+      "name": "灵感漫游者",
+      "text": "你随时准备出发，去赴一个临时的约，或试一家新开的店。和朋友在一起时，普通的一天也能变成一段值得记住的小冒险。\n\n你不急着找到唯一的答案。走一走、聊一聊、试一试，就是你的生活方式。"
+    },
+    {
+      "id": "profile-bdyn",
+      "match": {
+        "rhythm": "right",
+        "energy": "right",
+        "exploration": "right",
+        "decision": "right"
+      },
+      "name": "自己的生活策展人",
+      "text": "你喜欢按自己的节奏，把日子过得有条理。一本翻过很多遍的书、一项坚持很久的爱好，都有让你安心的力量。\n\n你不需要把每一天填满。留出一段完整的时间，专注做喜欢的事情，就已经很好。"
+    }
+  ],
+  "credits": {
+    "original": {
+      "name": "@某bit",
+      "url": "https://space.bilibili.com/30348237",
+      "visible": true
+    },
+    "project": {
+      "name": "你的名字",
+      "url": "",
+      "visible": true
+    }
+  }
+}

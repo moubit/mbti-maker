@@ -1,0 +1,565 @@
+{
+  "schemaVersion": 1,
+  "id": "mpti-starter",
+  "site": {
+    "title": "MPTI 手机倾向测试",
+    "subtitle": "每一种需求，都有自己的答案。",
+    "description": "用 20 道题，看看你在屏幕、性能、影像、生态和购买节奏上的倾向。这里只展示结果与评语。",
+    "disclaimer": "测试仅供娱乐，不构成购买建议或专业心理测评。",
+    "resultIntro": "你的手机需求人格",
+    "startLabel": "测测我的手机倾向",
+    "themeColor": "#1f9a8a"
+  },
+  "settings": {
+    "scalePoints": 7,
+    "scaleLabels": [
+      "很不同意",
+      "不同意",
+      "不太同意",
+      "中立",
+      "比较同意",
+      "同意",
+      "非常同意"
+    ],
+    "perPage": 5,
+    "selection": "balanced",
+    "perPole": 2,
+    "shuffle": true,
+    "showEditor": true
+  },
+  "dimensions": [
+    {
+      "id": "screen",
+      "name": "屏幕手感",
+      "role": "main",
+      "tiePoleId": "I",
+      "poles": [
+        {
+          "id": "E",
+          "code": "E",
+          "name": "Extra 大大大大党",
+          "description": "大屏看着才叫爽，半斤分量照样扛。裤兜抗议？听不见。当地铁上的单手党还在够屏幕左上角，您已经在用双手捧着一整块移动影院了。"
+        },
+        {
+          "id": "I",
+          "code": "I",
+          "name": "In-hand 单手掌控党",
+          "description": "单手操作稳当当，口袋一揣走四方。拇指一滑，全屏尽在掌握。大屏党双手并用的时候，您另一只手还腾出来喝奶茶。"
+        }
+      ]
+    },
+    {
+      "id": "performance",
+      "name": "性能态度",
+      "role": "main",
+      "tiePoleId": "N",
+      "poles": [
+        {
+          "id": "S",
+          "code": "S",
+          "name": "Spec 参数人",
+          "description": "芯片散热门儿清，跑分低了真不行。发布会不看参数等于白开。为性能余量多花点钱，在您这不叫冲动消费，叫理性投资。"
+        },
+        {
+          "id": "N",
+          "code": "N",
+          "name": "Normal 日子人",
+          "description": "跑分再高不当饭，不卡耐用才是赞。参数表是厂商写给自己的情书，您没兴趣读。您只关心一件事：这手机能不能安安稳稳陪您好几年。"
+        }
+      ]
+    },
+    {
+      "id": "imaging",
+      "name": "影像用途",
+      "role": "main",
+      "tiePoleId": "F",
+      "poles": [
+        {
+          "id": "T",
+          "code": "T",
+          "name": "Telephoto 长焦派",
+          "description": "人像夜景样样讲究，内存经常不太足够。拍照只是基本功，录像创作才是真本事：运镜、光线、氛围感，一部手机就是一整支剧组。别人用视频记录生活，您用视频创作生活——随手一条 vlog，朋友都以为您背后有团队。"
+        },
+        {
+          "id": "F",
+          "code": "F",
+          "name": "Fast-scan 扫码派",
+          "description": "扫码拍菜拍资料，渣渣镜头也能拍得妙。摄像头一年开不了几次，打开基本是为了付款。您的人生信条很朴素：能扫上，就是好镜头。"
+        }
+      ]
+    },
+    {
+      "id": "ecosystem",
+      "name": "设备生态",
+      "role": "main",
+      "tiePoleId": "P",
+      "poles": [
+        {
+          "id": "J",
+          "code": "J",
+          "name": "Jigsaw 全家桶",
+          "description": "设备同姓才省心，开盖即连一家亲。手机拍到一半，平板接着修；电脑一开，文件自己长腿跑过来。全家桶的快乐，就是这么朴实无华。"
+        },
+        {
+          "id": "P",
+          "code": "P",
+          "name": "Particle 满天星",
+          "description": "品牌信仰算个啥，哪家强就买哪家。手动传文件不叫折腾，叫自由的小代价。设备圈海王，从不在一棵树上吊死。"
+        }
+      ]
+    },
+    {
+      "id": "purchase",
+      "name": "购买节奏",
+      "role": "suffix",
+      "tiePoleId": "W",
+      "poles": [
+        {
+          "id": "B",
+          "code": "B",
+          "name": "Buy 剁手党",
+          "description": "手机还没发货，配件已经到齐。您对喜欢的电子产品有着惊人的行动力，需求一旦命中，购物车就只是一个中转站。早买早享受是您的人生信条，快递拆封的那一刻，所有溢价都显得情有可原。不过快乐通常来得很快，账单也是。"
+        },
+        {
+          "id": "W",
+          "code": "W",
+          "name": "Wait 等等党",
+          "description": "您拥有常人难以企及的耐心，购物车就是电子产品的养老院。首发看测评，半年看降价，一年看某鱼，手机还没买，对它的了解已经超过产品经理。您坚信等等总会更香，唯一的问题是：伴随着内存涨价，新手机比去年更贵了……"
+        }
+      ]
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "dimensionId": "screen",
+      "poleId": "E",
+      "text": "为了大屏和续航，您可以接受手机重一些。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q2",
+      "dimensionId": "screen",
+      "poleId": "E",
+      "text": "您的大拇指长度是多少？（请在手指侧面沿着掌骨关节横纹到指尖测量）",
+      "weight": 1,
+      "required": true,
+      "labels": ["4.5cm", "5cm", "5.5cm", "6cm", "6.5cm", "7cm", "7.5cm"]
+    },
+    {
+      "id": "q3",
+      "dimensionId": "screen",
+      "poleId": "E",
+      "text": "您能理解甚至向往折叠屏的使用体验，希望能在手机上获得更大的显示面积。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q4",
+      "dimensionId": "screen",
+      "poleId": "I",
+      "text": "您愿意为了更小尺寸的手机，花相对较多的钱。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q5",
+      "dimensionId": "screen",
+      "poleId": "I",
+      "text": "相比手机的续航、大屏和影像，手机轻薄一些更重要。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q6",
+      "dimensionId": "screen",
+      "poleId": "I",
+      "text": "相比于 Pro Max，您更喜欢 Pro？",
+      "weight": 1,
+      "required": true
+    },
+    {
+      "id": "q7",
+      "dimensionId": "performance",
+      "poleId": "S",
+      "text": "买手机前，您会认真看芯片、内存、散热、屏幕刷新率这些参数。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q8",
+      "dimensionId": "performance",
+      "poleId": "S",
+      "text": "您非常关注手机的续航，并认为续航的优先级大于其他功能。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q9",
+      "dimensionId": "performance",
+      "poleId": "S",
+      "text": "打游戏时，您非常渴望能把画质选项开满，而不是能玩就行。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q10",
+      "dimensionId": "performance",
+      "poleId": "N",
+      "text": "您完全不关心手机跑分（指手机的性能测试分数）。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q11",
+      "dimensionId": "performance",
+      "poleId": "N",
+      "text": "如果牺牲游戏性能，能让手机日常更流畅，您会毫不犹豫这样做。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q12",
+      "dimensionId": "performance",
+      "poleId": "N",
+      "text": "您一部手机会用很久，直到它卡得不能用了才会更换。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q13",
+      "dimensionId": "imaging",
+      "poleId": "T",
+      "text": "您了解手机摄像头中，CMOS尺寸、光圈、焦距等对于成片的影响。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q14",
+      "dimensionId": "imaging",
+      "poleId": "T",
+      "text": "为了更好的拍照效果，您会切换广角、长焦或人像、闪光等功能。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q15",
+      "dimensionId": "imaging",
+      "poleId": "T",
+      "text": "您十分热爱用手机拍照。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q16",
+      "dimensionId": "imaging",
+      "poleId": "F",
+      "text": "您的相册里最常见的照片是扫码、拍菜单、拍停车位和拍资料。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q17",
+      "dimensionId": "imaging",
+      "poleId": "F",
+      "text": "您觉得现在手机的大摄像头很丑，还是以前一颗摄像头好看。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q18",
+      "dimensionId": "imaging",
+      "poleId": "F",
+      "text": "相比于用心拍好一张照片，您觉得用肉眼捕捉到更加重要。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q19",
+      "dimensionId": "ecosystem",
+      "poleId": "J",
+      "text": "您正在为 iCloud、华为云、小米云、vivo、OPPO、荣耀等这样的云服务付费。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q20",
+      "dimensionId": "ecosystem",
+      "poleId": "J",
+      "text": "在手机上做到一半的事情，拿起电脑就能接着做，类似的事情会让您觉得特别顺心。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q21",
+      "dimensionId": "ecosystem",
+      "poleId": "J",
+      "text": "一件新设备很吸引您，但想到它可能因为系统或者配件原因需要习惯、不太适配，您会有些打退堂鼓。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q22",
+      "dimensionId": "ecosystem",
+      "poleId": "P",
+      "text": "您手上的设备来源非常复杂，什么品牌都有。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q23",
+      "dimensionId": "ecosystem",
+      "poleId": "P",
+      "text": "您反感某些品牌的封闭生态，不想被他们束缚。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q24",
+      "dimensionId": "ecosystem",
+      "poleId": "P",
+      "text": "为了用上更合心意的设备，偶尔折腾一下，手动传文件或切换连接，您也觉得可以接受。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q25",
+      "dimensionId": "purchase",
+      "poleId": "B",
+      "text": "遇到一部各方面都合心意的手机，您会很想当天就把它带回家。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q26",
+      "dimensionId": "purchase",
+      "poleId": "B",
+      "text": "您平均1年就会换一次手机。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q27",
+      "dimensionId": "purchase",
+      "poleId": "B",
+      "text": "您觉得旗舰手机贵得物有所值。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q28",
+      "dimensionId": "purchase",
+      "poleId": "W",
+      "text": "购买电子产品时，您通常不会买首发。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q29",
+      "dimensionId": "purchase",
+      "poleId": "W",
+      "text": "您经常关注二手数码产品，并认为它们性价比更高。",
+      "weight": 1,
+      "required": false
+    },
+    {
+      "id": "q30",
+      "dimensionId": "purchase",
+      "poleId": "W",
+      "text": "您觉得用什么手机与面子毫无关系，只要好用千元机就足够了。",
+      "weight": 1,
+      "required": false
+    }
+  ],
+  "profiles": [
+    {
+      "id": "profile-ESTJ",
+      "match": {
+        "screen": "E",
+        "performance": "S",
+        "imaging": "T",
+        "ecosystem": "J"
+      },
+      "name": "天生 Pro Max 圣体",
+      "text": "您是各家顶级旗舰的天然受众，在您的字典里，没有性价比，只有天花板，买手机追求的就是一个全部拉满。您通常拥有常人难以企及的手腕力量与精神感召力，愿意为了极致的芯片余量和电影级移动影像，首发扛起那块重达半斤的移动钢板。"
+    },
+    {
+      "id": "profile-ESTP",
+      "match": {
+        "screen": "E",
+        "performance": "S",
+        "imaging": "T",
+        "ecosystem": "P"
+      },
+      "name": "赛博斗蛐蛐胜者",
+      "text": "您是深谋远虑的战略家，各大科技论坛的幕后操盘手。您对品牌信仰持有近乎冷酷的蔑视，却对手机硬件的架构和参数了如指掌。评测不能输是您的战争底线，哪怕是赛博斗蛐蛐，您也要成为最终赢家。"
+    },
+    {
+      "id": "profile-ESFJ",
+      "match": {
+        "screen": "E",
+        "performance": "S",
+        "imaging": "F",
+        "ecosystem": "J"
+      },
+      "name": "折叠屏的神",
+      "text": "屏幕要大，性能要强，相机嘛……能扫码就行。在您的认知里，手机的终极形态应该是一台可以打电话的小平板。您享受大屏看剧的爽感和开满游戏画质的畅快，却对复杂的长焦构图毫无兴趣。也许，能让您真正实现大屏与口袋和解的终极归宿，是一台能随时展开的折叠屏。"
+    },
+    {
+      "id": "profile-ESFP",
+      "match": {
+        "screen": "E",
+        "performance": "S",
+        "imaging": "F",
+        "ecosystem": "P"
+      },
+      "name": "小绿书钉子户",
+      "text": "您是小绿书评论区的人形参数表，各家发布会最怕被您盯上。谁家新机一亮相，您带着放大镜准时到场：屏幕够不够大、亮度够不够顶、帧率曲线够不够直，来战！品牌对您如同一张厕纸，谁家堆料最放任，您就去谁家串个门。性能，爽！"
+    },
+    {
+      "id": "profile-ENTJ",
+      "match": {
+        "screen": "E",
+        "performance": "N",
+        "imaging": "T",
+        "ecosystem": "J"
+      },
+      "name": "九宫格王家卫",
+      "text": "您未必关心跑分，但您很懂爽。冷冰冰的跑分、散热和晶体管数量很难打动您，倒是照片的肤色、电影感和色彩宽容度，您有一套自己的讲究。您的灵魂活在社交平台的九宫格里，拍照时觉得自己是王家卫。"
+    },
+    {
+      "id": "profile-ENTP",
+      "match": {
+        "screen": "E",
+        "performance": "N",
+        "imaging": "T",
+        "ecosystem": "P"
+      },
+      "name": "影像带师",
+      "text": "您是清高且务实的理想主义者，对镜头有自己独到的美学标准，唯独对品牌没有半点忠诚。谁家的长焦对味，您就为谁转身；谁家的影调高级，样张库里就多一位新欢。您坚信没有永远的机皇，只有永远的样张——参数表会骗人，但您相册里的成片不会。"
+    },
+    {
+      "id": "profile-ENFJ",
+      "match": {
+        "screen": "E",
+        "performance": "N",
+        "imaging": "F",
+        "ecosystem": "J"
+      },
+      "name": "天高海阔任您选",
+      "text": "您是不可预测的自由灵魂。买手机对您来说不需要复杂的参数论证，纯靠视觉的第一眼缘。只要屏幕够大、系统顺手、外观或配色击中您的审美，您就会高高兴兴地把它带回家。相机？能扫码就够了。真要说执念，大概是同一品牌的设备摆在一起，比较符合您的强迫症。"
+    },
+    {
+      "id": "profile-ENFP",
+      "match": {
+        "screen": "E",
+        "performance": "N",
+        "imaging": "F",
+        "ecosystem": "P"
+      },
+      "name": "营销号绝缘体",
+      "text": "您是看透繁华的数码隐士，大厂营销号最难收割的绝缘体。您对现代科技的军备竞赛感到厌倦，买手机能用就行。字大、屏幕大、能扫码、不卡顿，就是您对这台机器的全部期许。哪怕厂商牛皮吹天外，我说不爱就不爱，绝不为生态捆绑当韭菜。"
+    },
+    {
+      "id": "profile-ISTJ",
+      "match": {
+        "screen": "I",
+        "performance": "S",
+        "imaging": "T",
+        "ecosystem": "J"
+      },
+      "name": "小钢炮死忠",
+      "text": "您是数码圈里最孤傲、最难伺候的小钢炮死忠。您坚信手感才是人机交互的灵魂，但又绝不向参数和镜头妥协。您极度渴望大厂推出所谓的小屏超大杯，并愿意为此付出溢价。只可惜伯乐常有，而千里马不常有，大人，小屏的时代变了！"
+    },
+    {
+      "id": "profile-ISTP",
+      "match": {
+        "screen": "I",
+        "performance": "S",
+        "imaging": "T",
+        "ecosystem": "P"
+      },
+      "name": "小钢炮海王",
+      "text": "您拥有机械师般的冷静与克制，是小屏旗舰池塘里最出名的海王。您疯狂迷恋小巧强悍的单手钢炮，却绝不把真心交给任何一家品牌。您在各家参数表之间坐禅，今天拆这家的散热，明天盘那家的长焦，只为找到那台尺寸、性能和镜头都合心意的小屏手机——无论它姓什么。"
+    },
+    {
+      "id": "profile-ISFJ",
+      "match": {
+        "screen": "I",
+        "performance": "S",
+        "imaging": "F",
+        "ecosystem": "J"
+      },
+      "name": "西装暴徒",
+      "text": "您是行动派的效率狂魔，穿着西装去工地搬砖的典范。您要求手机在小巧轻便的同时，性能必须像火山一样爆发。扫码付钱和游戏画质开满都是您的刚需。"
+    },
+    {
+      "id": "profile-ISFP",
+      "match": {
+        "screen": "I",
+        "performance": "S",
+        "imaging": "F",
+        "ecosystem": "P"
+      },
+      "name": "小就是好",
+      "text": "您是叛逆的硬件挑选者，把小巧强悍刻进 DNA。您反感任何形式的品牌捆绑，擅长游走在各家产品之间，寻找那些体积不大、性能却不肯让步的小屏钢炮。至于镜头有几颗，能扫码就行。"
+    },
+    {
+      "id": "profile-INTJ",
+      "match": {
+        "screen": "I",
+        "performance": "N",
+        "imaging": "T",
+        "ecosystem": "J"
+      },
+      "name": "您还是买台 Pocket 吧",
+      "text": "您是不可救药的浪漫主义街头摄影师。您要求手机必须能轻松装进最贴身的口袋，同时还要拥有能随时直出人文大片的顶级镜头。参数和跑分在您的审美面前一文不值。"
+    },
+    {
+      "id": "profile-INTP",
+      "match": {
+        "screen": "I",
+        "performance": "N",
+        "imaging": "T",
+        "ecosystem": "P"
+      },
+      "name": "氛围感精算师",
+      "text": "您是活在精致氛围感里的现实主义者。想要轻薄优雅的手感，想要好看的照片去社交平台分享，对于品牌却没有什么非谁不可的执念。轻薄与好拍照之间的取舍已经够让人纠结了，您不想再给自己加一道全家桶的限制。"
+    },
+    {
+      "id": "profile-INFJ",
+      "match": {
+        "screen": "I",
+        "performance": "N",
+        "imaging": "F",
+        "ecosystem": "J"
+      },
+      "name": "赛级精神股东",
+      "text": "单手握持怪里的纯爱党，大厂工业设计师在人间唯一的知音。您不在乎冷冰冰的跑分参数，也不在乎繁琐的三摄四摄配置，管他更新七八代，认准这个品牌就是干。就是爽的时候真爽，换的时候真难。"
+    },
+    {
+      "id": "profile-INFP",
+      "match": {
+        "screen": "I",
+        "performance": "N",
+        "imaging": "F",
+        "ecosystem": "P"
+      },
+      "name": "断舍离仙人",
+      "text": "恭喜您，您已经战胜了现代消费主义，成为数字时代的终极活化石。小屏够用、性能刚好、扫码就行。哪怕厂商牛皮吹天外，我说不爱就不爱，绝不为生态捆绑当韭菜。"
+    }
+  ],
+  "credits": {
+    "original": {
+      "name": "@某bit",
+      "url": "https://space.bilibili.com/30348237",
+      "visible": true
+    },
+    "project": {
+      "name": "你的名字",
+      "url": "",
+      "visible": true
+    }
+  }
+}
