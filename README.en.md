@@ -20,7 +20,7 @@ Preview the homepage, questions, and results while you edit, or take the entire 
 
 ### Original MPTI test and videos
 
-This button opens the currently running MPTI website. That site is maintained separately from this generator and its simplified MPTI template.
+MPTI stands for **Mobile Phone TI**. This button opens the currently running MPTI website. That site is maintained separately from this generator and its simplified MPTI template.
 
 [![Try the original MPTI test](docs/assets/mpti-button-en.svg)](https://mpti.basebit.top/)
 

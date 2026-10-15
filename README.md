@@ -20,7 +20,7 @@
 
 ### 原版 MPTI 测试与相关视频
 
-下面的按钮直接打开目前运行中的 MPTI 测试站，和本仓库里的通用生成器、精简 MPTI 模板分别维护。
+MPTI 的全称是 **Mobile Phone TI**。下面的按钮直接打开目前运行中的 MPTI 测试站，和本仓库里的通用生成器、精简 MPTI 模板分别维护。
 
 [![进入 MPTI 手机倾向测试](docs/assets/mpti-button-zh.svg)](https://mpti.basebit.top/)
 
