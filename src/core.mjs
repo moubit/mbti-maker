@@ -1,3 +1,4 @@
+import { message, formatMessage, MessageError } from "./i18n.mjs";
 export const SCHEMA_VERSION = 1;
 export const clone = (value) => structuredClone(value);
 export const uid = (prefix = "id") =>
@@ -33,13 +34,17 @@ export function safeUrl(value) {
 
 export function validate(config) {
   const errors = [];
-  const issue = (section, message) => errors.push({ section, message });
+  const issue = (section, source) =>
+    errors.push({ section, message: formatMessage(source), i18n: source });
   if (!config || typeof config !== "object" || Array.isArray(config))
     return [{ section: "site", message: "请选择有效的项目 JSON 文件。" }];
   if (config.schemaVersion !== SCHEMA_VERSION)
     issue(
       "site",
-      `不支持配置版本 ${config.schemaVersion ?? "未填写"}，当前支持版本 ${SCHEMA_VERSION}。`,
+      message("不支持配置版本 {p0}，当前支持版本 {p1}。", {
+        p0: config.schemaVersion ?? message("未填写"),
+        p1: SCHEMA_VERSION,
+      }),
     );
   if (!validId(config.id)) issue("site", "项目编号无效。");
   if (!nonempty(config.site?.title, 100))
@@ -55,7 +60,7 @@ export function validate(config) {
       typeof config.site?.[key] !== "string" ||
       config.site[key].length > 20000
     )
-      issue("site", `页面字段 ${key} 无效。`);
+      issue("site", message("页面字段 {p0} 无效。", { p0: key }));
   }
   if (!/^#[a-f\d]{6}$/i.test(config.site?.themeColor || ""))
     issue("site", "主题色需要是六位十六进制颜色。");
@@ -98,29 +103,47 @@ export function validate(config) {
   const dimensions = new Map();
   for (const [index, dim] of config.dimensions.entries()) {
     if (!dim || typeof dim !== "object") {
-      issue("dimensions", `第 ${index + 1} 个维度格式无效。`);
+      issue(
+        "dimensions",
+        message("第 {p0} 个维度格式无效。", { p0: index + 1 }),
+      );
       continue;
     }
     if (!validId(dim.id) || dimensions.has(dim.id))
-      issue("dimensions", `第 ${index + 1} 个维度编号缺失或重复。`);
+      issue(
+        "dimensions",
+        message("第 {p0} 个维度编号缺失或重复。", { p0: index + 1 }),
+      );
     dimensions.set(dim.id, dim);
     if (!nonempty(dim.name, 100))
-      issue("dimensions", `第 ${index + 1} 个维度需要名称。`);
+      issue(
+        "dimensions",
+        message("第 {p0} 个维度需要名称。", { p0: index + 1 }),
+      );
     if (!["main", "suffix"].includes(dim.role))
-      issue("dimensions", `「${dim.name}」的编码位置无效。`);
+      issue(
+        "dimensions",
+        message("「{p0}」的编码位置无效。", { p0: dim.name }),
+      );
     if (
       !Array.isArray(dim.poles) ||
       dim.poles.length !== 2 ||
       dim.poles.some((p) => !p || typeof p !== "object")
     ) {
-      issue("dimensions", `「${dim.name}」必须有两个倾向。`);
+      issue(
+        "dimensions",
+        message("「{p0}」必须有两个倾向。", { p0: dim.name }),
+      );
       continue;
     }
     if (
       new Set(dim.poles.map((p) => p.id)).size !== 2 ||
       dim.poles.some((p) => !validId(p.id))
     )
-      issue("dimensions", `「${dim.name}」的倾向编号无效或重复。`);
+      issue(
+        "dimensions",
+        message("「{p0}」的倾向编号无效或重复。", { p0: dim.name }),
+      );
     if (
       new Set(dim.poles.map((p) => p.code)).size !== 2 ||
       dim.poles.some(
@@ -130,14 +153,22 @@ export function validate(config) {
     )
       issue(
         "dimensions",
-        `「${dim.name}」的两个编码必须不同，支持 1–4 个字母、汉字或数字。`,
+        message("「{p0}」的两个编码必须不同，支持 1–4 个字母、汉字或数字。", {
+          p0: dim.name,
+        }),
       );
     for (const pole of dim.poles) {
       if (!nonempty(pole.name, 100) || !nonempty(pole.description))
-        issue("dimensions", `「${dim.name}」的倾向名称和解释需要填写。`);
+        issue(
+          "dimensions",
+          message("「{p0}」的倾向名称和解释需要填写。", { p0: dim.name }),
+        );
     }
     if (!dim.poles.some((p) => p.id === dim.tiePoleId))
-      issue("dimensions", `「${dim.name}」需要设置平分时采用的倾向。`);
+      issue(
+        "dimensions",
+        message("「{p0}」需要设置平分时采用的倾向。", { p0: dim.name }),
+      );
   }
   const mains = config.dimensions.filter((d) => d?.role === "main");
   if (!mains.length) issue("dimensions", "至少需要一个主编码维度。");
@@ -150,50 +181,68 @@ export function validate(config) {
   } else {
     const ids = new Set();
     for (const [index, q] of config.questions.entries()) {
-      const label = `第 ${index + 1} 题`;
+      const label = message("第 {p0} 题", { p0: index + 1 });
       if (!q || typeof q !== "object") {
-        issue("questions", `${label}格式无效。`);
+        issue("questions", message("{p0}格式无效。", { p0: label }));
         continue;
       }
       if (!validId(q.id) || ids.has(q.id))
-        issue("questions", `${label}编号无效或重复。`);
+        issue("questions", message("{p0}编号无效或重复。", { p0: label }));
       ids.add(q.id);
-      if (!nonempty(q.text)) issue("questions", `${label}需要题干。`);
+      if (!nonempty(q.text))
+        issue("questions", message("{p0}需要题干。", { p0: label }));
       const dim = dimensions.get(q.dimensionId);
       if (
         !Array.isArray(dim?.poles) ||
         !dim.poles.some((p) => p?.id === q.poleId)
       )
-        issue("questions", `${label}的维度或倾向已失效，请重新指定。`);
+        issue(
+          "questions",
+          message("{p0}的维度或倾向已失效，请重新指定。", { p0: label }),
+        );
       if (!Number.isFinite(q.weight) || q.weight <= 0 || q.weight > 10)
-        issue("questions", `${label}权重需要大于 0，且不超过 10。`);
+        issue(
+          "questions",
+          message("{p0}权重需要大于 0，且不超过 10。", { p0: label }),
+        );
       if (typeof q.required !== "boolean")
-        issue("questions", `${label}的必出设置无效。`);
+        issue("questions", message("{p0}的必出设置无效。", { p0: label }));
       if (
         q.labels != null &&
         (!Array.isArray(q.labels) ||
           q.labels.length !== settings?.scalePoints ||
           !q.labels.every((s) => nonempty(s, 40)))
       )
-        issue("questions", `${label}的自定义量表文案与档数不符。`);
+        issue(
+          "questions",
+          message("{p0}的自定义量表文案与档数不符。", { p0: label }),
+        );
     }
     for (const dim of config.dimensions.filter(
       (d) => d && Array.isArray(d.poles),
     )) {
       const pool = config.questions.filter((q) => q?.dimensionId === dim.id);
-      if (!pool.length) issue("questions", `「${dim.name}」还没有题目。`);
+      if (!pool.length)
+        issue("questions", message("「{p0}」还没有题目。", { p0: dim.name }));
       if (settings?.selection === "balanced") {
         for (const pole of dim.poles.filter(Boolean)) {
           const side = pool.filter((q) => q.poleId === pole.id);
           if (side.length < settings.perPole)
             issue(
               "questions",
-              `「${dim.name} / ${pole.code}」需要至少 ${settings.perPole} 道题才能抽题。`,
+              message("「{p0} / {p1}」需要至少 {p2} 道题才能抽题。", {
+                p0: dim.name,
+                p1: pole.code,
+                p2: settings.perPole,
+              }),
             );
           if (side.filter((q) => q.required).length > settings.perPole)
             issue(
               "questions",
-              `「${dim.name} / ${pole.code}」的必出题超过抽题数。`,
+              message("「{p0} / {p1}」的必出题超过抽题数。", {
+                p0: dim.name,
+                p1: pole.code,
+              }),
             );
         }
       }
@@ -206,12 +255,18 @@ export function validate(config) {
     const ids = new Set();
     for (const [index, p] of config.profiles.entries()) {
       if (!p || !validId(p.id) || ids.has(p.id)) {
-        issue("results", `第 ${index + 1} 条专属评语编号无效或重复。`);
+        issue(
+          "results",
+          message("第 {p0} 条专属评语编号无效或重复。", { p0: index + 1 }),
+        );
         continue;
       }
       ids.add(p.id);
       if (!nonempty(p.name, 150) || !nonempty(p.text))
-        issue("results", `第 ${index + 1} 条专属评语需要名称和正文。`);
+        issue(
+          "results",
+          message("第 {p0} 条专属评语需要名称和正文。", { p0: index + 1 }),
+        );
       const validMatch =
         p.match &&
         typeof p.match === "object" &&
@@ -225,7 +280,10 @@ export function validate(config) {
       if (!validMatch)
         issue(
           "results",
-          `「${p.name}」的组合与当前主维度不一致，请重新指定或删除这条评语。`,
+          message(
+            "「{p0}」的组合与当前主维度不一致，请重新指定或删除这条评语。",
+            { p0: p.name },
+          ),
         );
       else {
         const key = mains
@@ -233,7 +291,10 @@ export function validate(config) {
           .sort()
           .join("|");
         if (keys.has(key))
-          issue("results", `「${p.name}」与另一条评语对应同一个组合。`);
+          issue(
+            "results",
+            message("「{p0}」与另一条评语对应同一个组合。", { p0: p.name }),
+          );
         keys.add(key);
       }
     }
@@ -250,12 +311,16 @@ export function validate(config) {
     )
       issue(
         "credits",
-        `${key === "original" ? "原项目" : "项目"}作者信息无效，链接只支持 http / https。`,
+        message("{p0}作者信息无效，链接只支持 http / https。", {
+          p0: message(key === "original" ? "原项目" : "项目"),
+        }),
       );
     else if (author.visible && !author.name.trim())
       issue(
         "credits",
-        `${key === "original" ? "原项目" : "项目"}作者需要名称，也可以关闭署名。`,
+        message("{p0}作者需要名称，也可以关闭署名。", {
+          p0: message(key === "original" ? "原项目" : "项目"),
+        }),
       );
   }
   return errors;
@@ -271,7 +336,8 @@ export function parseConfig(text) {
     throw new Error("无法读取 JSON，请选择导出的项目配置文件。");
   }
   const errors = validate(config);
-  if (errors.length) throw new Error(errors.map((e) => e.message).join("\n"));
+  if (errors.length)
+    throw new MessageError(errors.map((e) => e.i18n || e.message));
   return config;
 }
 
@@ -392,7 +458,10 @@ export function calculate(config, questions, answers) {
   const tendencies = config.dimensions.map((dim) => {
     const pool = questions.filter((q) => q.dimensionId === dim.id);
     const weight = pool.reduce((sum, q) => sum + q.weight, 0);
-    if (!weight) throw new Error(`「${dim.name}」没有可评分的题目。`);
+    if (!weight)
+      throw new MessageError(
+        message("「{p0}」没有可评分的题目。", { p0: dim.name }),
+      );
     const delta = pool.reduce(
       (sum, q) =>
         sum +

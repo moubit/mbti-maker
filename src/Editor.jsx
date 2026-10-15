@@ -1,3 +1,5 @@
+import { useI18n, LanguageSwitch } from "./I18n.jsx";
+import { message as uiMessage } from "./i18n.mjs";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
@@ -113,6 +115,7 @@ export default function Editor({
   onExit,
   onTrial,
 }) {
+  const { tr } = useI18n();
   const [loaded] = useState(() => readDraft(published));
   const [history, setHistory] = useState({
     past: [],
@@ -239,7 +242,9 @@ export default function Editor({
   };
   const validAction = (action) => {
     if (errors.length) {
-      setMessage(`请先修复 ${errors.length} 个配置问题。`);
+      setMessage(
+        uiMessage("请先修复 {p0} 个配置问题。", { p0: errors.length }),
+      );
       locate(errors[0].section);
       return;
     }
@@ -248,7 +253,9 @@ export default function Editor({
   const loadTemplate = (kind) => {
     if (
       !window.confirm(
-        "载入模板会替换当前草稿，可以撤销。需要保留多个项目时，请先下载 JSON 备份。",
+        tr(
+          "载入模板会替换当前草稿，可以撤销。需要保留多个项目时，请先下载 JSON 备份。",
+        ),
       )
     )
       return;
@@ -286,13 +293,13 @@ export default function Editor({
     try {
       if (file.size > 4_000_000) throw new Error("配置文件超过 4 MB。");
       const next = parseConfig(await file.text());
-      if (!window.confirm("导入配置会替换当前草稿，可以撤销。继续导入？"))
+      if (!window.confirm(tr("导入配置会替换当前草稿，可以撤销。继续导入？")))
         return;
       replace(next);
       setOutdated(null);
       setMessage("配置已导入，检查后可以试答或导出。");
     } catch (error) {
-      setMessage(error.message);
+      setMessage(error.messages || error.message);
     }
   };
   const doExport = async (kind) => {
@@ -313,7 +320,7 @@ export default function Editor({
           : "文件已导出，可以在另一台电脑打开或部署。",
       );
     } catch (error) {
-      setMessage(error.message || "导出失败，请重试。");
+      setMessage(error.messages || error.message || "导出失败，请重试。");
     } finally {
       setExporting(false);
     }
@@ -326,7 +333,10 @@ export default function Editor({
     ).length;
     if (
       !window.confirm(
-        `删除「${dim.name}」会同时删除 ${qs} 道关联题目和 ${profiles} 条专属评语。确认删除？可用撤销恢复。`,
+        tr(
+          "删除「{p0}」会同时删除 {p1} 道关联题目和 {p2} 条专属评语。确认删除？可用撤销恢复。",
+          { p0: dim.name, p1: qs, p2: profiles },
+        ),
       )
     )
       return;
@@ -354,20 +364,21 @@ export default function Editor({
             <Shapes size={22} />
           </span>
           <div>
-            <b>万能MBTI生成器</b>
-            <span>让每一个好问题，都有自己的页面。</span>
+            <b>{tr("万能MBTI生成器")}</b>
+            <span>{tr("让每一个好问题，都有自己的页面。")}</span>
           </div>
         </div>
         <div className="editor-header-actions">
+          <LanguageSwitch />
           <IconButton
-            label="撤销修改"
+            label={tr("撤销修改")}
             onClick={undo}
             disabled={!history.past.length}
           >
             <Undo2 size={18} />
           </IconButton>
           <IconButton
-            label="重做修改"
+            label={tr("重做修改")}
             onClick={redo}
             disabled={!history.future.length}
           >
@@ -375,11 +386,11 @@ export default function Editor({
           </IconButton>
           <button
             className="button secondary small"
-            aria-label="保存草稿"
+            aria-label={tr("保存草稿")}
             onClick={() => save(true)}
           >
             <Save size={16} />
-            <span>保存草稿</span>
+            <span>{tr("保存草稿")}</span>
           </button>
           <button
             className="button primary small"
@@ -391,10 +402,10 @@ export default function Editor({
             }
           >
             <Download size={16} />
-            导出与部署
+            {tr("导出与部署")}
           </button>
           <IconButton
-            label="退出编辑"
+            label={tr("退出编辑")}
             onClick={() => {
               save();
               onExit();
@@ -410,19 +421,19 @@ export default function Editor({
           onClick={() => setMobilePane("edit")}
         >
           <PanelLeftClose size={16} />
-          编辑配置
+          {tr("编辑配置")}
         </button>
         <button
           className={mobilePane === "preview" ? "active" : ""}
           onClick={() => setMobilePane("preview")}
         >
           <Eye size={16} />
-          实时预览
+          {tr("实时预览")}
         </button>
       </div>
       <div className={`editor-layout show-${mobilePane}`}>
         <aside className="editor-sidebar">
-          <p className="sidebar-caption">我的测试</p>
+          <p className="sidebar-caption">{tr("我的测试")}</p>
           <nav>
             {sections.map(([key, label, Icon], i) => (
               <button
@@ -431,28 +442,28 @@ export default function Editor({
                 onClick={() => locate(key)}
               >
                 <Icon size={17} />
-                <span>{label}</span>
+                <span>{tr(label)}</span>
                 <small>{String(i + 1).padStart(2, "0")}</small>
               </button>
             ))}
           </nav>
           <div className="sidebar-bottom">
-            <p className="sidebar-caption">从模板开始</p>
+            <p className="sidebar-caption">{tr("从模板开始")}</p>
             <button onClick={() => loadTemplate("lifestyle")}>
               <LayoutTemplate size={16} />
-              生活方式测试
+              {tr("生活方式测试")}
             </button>
             <button onClick={() => loadTemplate("mpti")}>
               <LayoutTemplate size={16} />
-              MPTI 手机倾向
+              {tr("MPTI 手机倾向")}
             </button>
             <button onClick={() => loadTemplate("blank")}>
               <Plus size={16} />
-              空白测试
+              {tr("空白测试")}
             </button>
             <button onClick={() => importRef.current.click()}>
               <FileUp size={16} />
-              导入 JSON 配置
+              {tr("导入 JSON 配置")}
             </button>
             <input
               ref={importRef}
@@ -466,26 +477,29 @@ export default function Editor({
               target="_blank"
               rel="noopener noreferrer"
             >
-              使用说明与源代码 <ChevronRight size={14} />
+              {tr("使用说明与源代码")}
+              <ChevronRight size={14} />
             </a>
           </div>
         </aside>
         <section className="editor-workspace" ref={workspaceRef}>
           <div className="workspace-heading">
             <div>
-              <span className="eyebrow">制作属于你的测试</span>
-              <h1>{title}</h1>
+              <span className="eyebrow">{tr("制作属于你的测试")}</span>
+              <h1>{tr(title)}</h1>
             </div>
             <span className="draft-status">
               <span className="status-dot" />
-              {savedStatus || "本地草稿"}
+              {tr(savedStatus || "本地草稿")}
             </span>
           </div>
           {outdated && (
             <div className="notice">
-              <b>发现先前的草稿</b>
+              <b>{tr("发现先前的草稿")}</b>
               <p>
-                它与当前发布配置不同，尚未覆盖当前内容。可以下载备份后再决定恢复。
+                {tr(
+                  "它与当前发布配置不同，尚未覆盖当前内容。可以下载备份后再决定恢复。",
+                )}
               </p>
               <div className="inline-actions">
                 <button
@@ -496,7 +510,7 @@ export default function Editor({
                     )
                   }
                 >
-                  备份旧草稿
+                  {tr("备份旧草稿")}
                 </button>
                 <button
                   onClick={() => {
@@ -506,29 +520,33 @@ export default function Editor({
                       replace(outdated);
                       setOutdated(null);
                     } catch (error) {
-                      setMessage(error.message);
+                      setMessage(error.messages || error.message);
                     }
                   }}
                 >
-                  恢复旧草稿
+                  {tr("恢复旧草稿")}
                 </button>
-                <button onClick={() => setOutdated(null)}>使用当前版本</button>
+                <button onClick={() => setOutdated(null)}>
+                  {tr("使用当前版本")}
+                </button>
               </div>
             </div>
           )}
           {message && (
             <div className="notice message" role="status">
-              {message}
+              {tr(message)}
             </div>
           )}
           {errors.length > 0 && (
             <details className="validation">
               <summary>
-                {errors.length} 个配置问题需要处理，修复后可导出
+                {tr("{p0} 个配置问题需要处理，修复后可导出", {
+                  p0: errors.length,
+                })}
               </summary>
               {errors.map((error, i) => (
                 <button key={i} onClick={() => locate(error.section)}>
-                  {error.message}
+                  {tr(error.i18n || error.message)}
                   <ChevronRight size={14} />
                 </button>
               ))}
@@ -537,9 +555,9 @@ export default function Editor({
           {section === "site" && (
             <div className="panel">
               <p className="panel-description">
-                从一个名字开始。右侧会同步显示你的修改。
+                {tr("从一个名字开始。右侧会同步显示你的修改。")}
               </p>
-              <Field label="测试名称">
+              <Field label={tr("测试名称")}>
                 <input
                   value={draft.site.title}
                   maxLength={100}
@@ -550,7 +568,7 @@ export default function Editor({
                   }
                 />
               </Field>
-              <Field label="首页大标题">
+              <Field label={tr("首页大标题")}>
                 <textarea
                   rows={2}
                   value={draft.site.subtitle}
@@ -561,7 +579,7 @@ export default function Editor({
                   }
                 />
               </Field>
-              <Field label="测试介绍">
+              <Field label={tr("测试介绍")}>
                 <textarea
                   rows={4}
                   value={draft.site.description}
@@ -573,7 +591,7 @@ export default function Editor({
                 />
               </Field>
               <div className="field-grid">
-                <Field label="开始按钮文案">
+                <Field label={tr("开始按钮文案")}>
                   <input
                     value={draft.site.startLabel}
                     onChange={(e) =>
@@ -583,7 +601,7 @@ export default function Editor({
                     }
                   />
                 </Field>
-                <Field label="结果页引导语">
+                <Field label={tr("结果页引导语")}>
                   <input
                     value={draft.site.resultIntro}
                     onChange={(e) =>
@@ -594,7 +612,7 @@ export default function Editor({
                   />
                 </Field>
               </div>
-              <Field label="测试说明">
+              <Field label={tr("测试说明")}>
                 <textarea
                   rows={2}
                   value={draft.site.disclaimer}
@@ -605,7 +623,7 @@ export default function Editor({
                   }
                 />
               </Field>
-              <Field label="主题色">
+              <Field label={tr("主题色")}>
                 <div className="color-picker">
                   <input
                     type="color"
@@ -617,14 +635,15 @@ export default function Editor({
                     }
                   />
                   <code>{draft.site.themeColor}</code>
-                  <span>按钮与倾向条使用此颜色</span>
+                  <span>{tr("按钮与倾向条使用此颜色")}</span>
                 </div>
               </Field>
               <div className="tip">
                 <HelpCircle size={16} />
                 <p>
-                  配置保存在当前浏览器。想把修改带走，请下载 HTML 或
-                  JSON；想更新公开网站，请上传新的部署包。
+                  {tr(
+                    "配置保存在当前浏览器。想把修改带走，请下载 HTML 或 JSON；想更新公开网站，请上传新的部署包。",
+                  )}
                 </p>
               </div>
             </div>
@@ -632,7 +651,9 @@ export default function Editor({
           {section === "dimensions" && (
             <>
               <p className="panel-description">
-                每个维度有两个倾向。改字母不会丢失题目关联；主编码按排列顺序组合，后缀统一放在末尾。
+                {tr(
+                  "每个维度有两个倾向。改字母不会丢失题目关联；主编码按排列顺序组合，后缀统一放在末尾。",
+                )}
               </p>
               {draft.dimensions.map((dim, index) => (
                 <article
@@ -641,10 +662,12 @@ export default function Editor({
                   key={dim.id}
                 >
                   <div className="panel-toolbar">
-                    <span className="pill">维度 {index + 1}</span>
+                    <span className="pill">
+                      {tr("维度 {p0}", { p0: index + 1 })}
+                    </span>
                     <div className="inline-actions">
                       <IconButton
-                        label={`上移维度 ${dim.name}`}
+                        label={tr("上移维度 {p0}", { p0: dim.name })}
                         onClick={() =>
                           mutate((d) => move(d.dimensions, index, -1))
                         }
@@ -653,7 +676,7 @@ export default function Editor({
                         <ArrowUp size={15} />
                       </IconButton>
                       <IconButton
-                        label={`下移维度 ${dim.name}`}
+                        label={tr("下移维度 {p0}", { p0: dim.name })}
                         onClick={() =>
                           mutate((d) => move(d.dimensions, index, 1))
                         }
@@ -662,7 +685,7 @@ export default function Editor({
                         <ArrowDown size={15} />
                       </IconButton>
                       <IconButton
-                        label={`删除维度 ${dim.name}`}
+                        label={tr("删除维度 {p0}", { p0: dim.name })}
                         onClick={() => deleteDimension(dim)}
                         disabled={draft.dimensions.length === 1}
                       >
@@ -671,7 +694,7 @@ export default function Editor({
                     </div>
                   </div>
                   <div className="field-grid">
-                    <Field label="维度名称">
+                    <Field label={tr("维度名称")}>
                       <input
                         value={dim.name}
                         onChange={(e) =>
@@ -681,7 +704,7 @@ export default function Editor({
                         }
                       />
                     </Field>
-                    <Field label="编码位置">
+                    <Field label={tr("编码位置")}>
                       <select
                         value={dim.role}
                         onChange={(e) =>
@@ -690,8 +713,8 @@ export default function Editor({
                           })
                         }
                       >
-                        <option value="main">主编码</option>
-                        <option value="suffix">附加后缀</option>
+                        <option value="main">{tr("主编码")}</option>
+                        <option value="suffix">{tr("附加后缀")}</option>
                       </select>
                     </Field>
                   </div>
@@ -699,8 +722,10 @@ export default function Editor({
                     {dim.poles.map((pole, pi) => (
                       <div className={`pole pole-${pi}`} key={pole.id}>
                         <Field
-                          label={pi ? "右侧字母 / 编码" : "左侧字母 / 编码"}
-                          hint="1–4 个字母、汉字或数字"
+                          label={
+                            pi ? tr("右侧字母 / 编码") : tr("左侧字母 / 编码")
+                          }
+                          hint={tr("1–4 个字母、汉字或数字")}
                         >
                           <input
                             className="code-input"
@@ -714,7 +739,7 @@ export default function Editor({
                             }
                           />
                         </Field>
-                        <Field label="倾向名称">
+                        <Field label={tr("倾向名称")}>
                           <input
                             value={pole.name}
                             onChange={(e) =>
@@ -725,7 +750,7 @@ export default function Editor({
                             }
                           />
                         </Field>
-                        <Field label="倾向解释 / 默认评语">
+                        <Field label={tr("倾向解释 / 默认评语")}>
                           <textarea
                             rows={4}
                             value={pole.description}
@@ -741,8 +766,10 @@ export default function Editor({
                     ))}
                   </div>
                   <Field
-                    label="平分时使用的编码"
-                    hint="结果仍显示 50% / 50%，这里只决定字母，不额外加分。"
+                    label={tr("平分时使用的编码")}
+                    hint={tr(
+                      "结果仍显示 50% / 50%，这里只决定字母，不额外加分。",
+                    )}
                   >
                     <select
                       value={dim.tiePoleId}
@@ -775,11 +802,12 @@ export default function Editor({
                 }
               >
                 <Plus size={17} />
-                添加维度（同时添加两道示例题）
+                {tr("添加维度（同时添加两道示例题）")}
               </button>
               <p className="hint">
-                最多 12
-                个维度。添加主维度后，请到「结果与评语」补全原有专属组合。
+                {tr(
+                  "最多 12 个维度。添加主维度后，请到「结果与评语」补全原有专属组合。",
+                )}
               </p>
             </>
           )}
@@ -787,17 +815,17 @@ export default function Editor({
             <>
               <div className="question-filters">
                 <input
-                  aria-label="搜索题目"
-                  placeholder="搜索题干…"
+                  aria-label={tr("搜索题目")}
+                  placeholder={tr("搜索题干…")}
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
                 <select
-                  aria-label="筛选维度"
+                  aria-label={tr("筛选维度")}
                   value={axisFilter}
                   onChange={(e) => setAxisFilter(e.target.value)}
                 >
-                  <option value="">全部维度</option>
+                  <option value="">{tr("全部维度")}</option>
                   {draft.dimensions.map((d) => (
                     <option value={d.id} key={d.id}>
                       {d.name}
@@ -806,8 +834,10 @@ export default function Editor({
                 </select>
               </div>
               <p className="panel-description">
-                共 {draft.questions.length}{" "}
-                道题。选择「同意时倾向」后，反对答案会自动计入另一侧。
+                {tr(
+                  "共 {p0} 道题。选择「同意时倾向」后，反对答案会自动计入另一侧。",
+                  { p0: draft.questions.length },
+                )}
               </p>
               {visibleQuestions.map(({ q, index }) => {
                 const dim = draft.dimensions.find(
@@ -825,7 +855,7 @@ export default function Editor({
                       </span>
                       <div className="inline-actions">
                         <IconButton
-                          label={`上移第 ${index + 1} 题`}
+                          label={tr("上移第 {p0} 题", { p0: index + 1 })}
                           disabled={!index}
                           onClick={() =>
                             mutate((d) => move(d.questions, index, -1))
@@ -834,7 +864,7 @@ export default function Editor({
                           <ArrowUp size={15} />
                         </IconButton>
                         <IconButton
-                          label={`下移第 ${index + 1} 题`}
+                          label={tr("下移第 {p0} 题", { p0: index + 1 })}
                           disabled={index === draft.questions.length - 1}
                           onClick={() =>
                             mutate((d) => move(d.questions, index, 1))
@@ -843,7 +873,7 @@ export default function Editor({
                           <ArrowDown size={15} />
                         </IconButton>
                         <IconButton
-                          label={`复制第 ${index + 1} 题`}
+                          label={tr("复制第 {p0} 题", { p0: index + 1 })}
                           disabled={draft.questions.length >= 500}
                           onClick={() =>
                             mutate((d) => {
@@ -857,7 +887,7 @@ export default function Editor({
                           <Copy size={15} />
                         </IconButton>
                         <IconButton
-                          label={`删除第 ${index + 1} 题`}
+                          label={tr("删除第 {p0} 题", { p0: index + 1 })}
                           onClick={() =>
                             mutate((d) => {
                               d.questions.splice(index, 1);
@@ -868,7 +898,7 @@ export default function Editor({
                         </IconButton>
                       </div>
                     </div>
-                    <Field label="题目内容">
+                    <Field label={tr("题目内容")}>
                       <textarea
                         rows={2}
                         value={q.text}
@@ -880,7 +910,7 @@ export default function Editor({
                       />
                     </Field>
                     <div className="field-grid">
-                      <Field label="所属维度">
+                      <Field label={tr("所属维度")}>
                         <select
                           value={q.dimensionId}
                           onChange={(e) =>
@@ -900,7 +930,7 @@ export default function Editor({
                           ))}
                         </select>
                       </Field>
-                      <Field label="同意 / 高分时倾向">
+                      <Field label={tr("同意 / 高分时倾向")}>
                         <select
                           value={q.poleId}
                           onChange={(e) =>
@@ -918,7 +948,10 @@ export default function Editor({
                       </Field>
                     </div>
                     <div className="field-grid">
-                      <Field label="权重" hint="默认 1；最大 10，支持小数。">
+                      <Field
+                        label={tr("权重")}
+                        hint={tr("默认 1；最大 10，支持小数。")}
+                      >
                         <input
                           type="number"
                           min="0.1"
@@ -943,13 +976,15 @@ export default function Editor({
                             })
                           }
                         >
-                          平衡抽题时每次必出
+                          {tr("平衡抽题时每次必出")}
                         </Toggle>
                       </div>
                     </div>
                     <details className="custom-scale">
                       <summary>
-                        自定义本题量表文案{q.labels ? " · 已启用" : ""}
+                        {tr("自定义本题量表文案{p0}", {
+                          p0: q.labels ? tr(" · 已启用") : "",
+                        })}
                       </summary>
                       <Toggle
                         checked={!!q.labels}
@@ -963,10 +998,13 @@ export default function Editor({
                           })
                         }
                       >
-                        为这道题单独设置各档文案
+                        {tr("为这道题单独设置各档文案")}
                       </Toggle>
                       {q.labels?.map((text, li) => (
-                        <Field key={li} label={`第 ${li + 1} 档`}>
+                        <Field
+                          key={li}
+                          label={tr("第 {p0} 档", { p0: li + 1 })}
+                        >
                           <input
                             value={text}
                             onChange={(e) =>
@@ -982,7 +1020,7 @@ export default function Editor({
                 );
               })}
               {!visibleQuestions.length && (
-                <div className="empty-state">没有匹配的题目。</div>
+                <div className="empty-state">{tr("没有匹配的题目。")}</div>
               )}
               <button
                 className="button add-button"
@@ -999,13 +1037,13 @@ export default function Editor({
                 }
               >
                 <Plus size={17} />
-                添加题目
+                {tr("添加题目")}
               </button>
             </>
           )}
           {section === "settings" && (
             <div className="panel">
-              <Field label="出题方式">
+              <Field label={tr("出题方式")}>
                 <select
                   value={draft.settings.selection}
                   onChange={(e) =>
@@ -1014,14 +1052,16 @@ export default function Editor({
                     })
                   }
                 >
-                  <option value="all">全部题目</option>
-                  <option value="balanced">每个维度两侧平衡抽题</option>
+                  <option value="all">{tr("全部题目")}</option>
+                  <option value="balanced">{tr("每个维度两侧平衡抽题")}</option>
                 </select>
               </Field>
               {draft.settings.selection === "balanced" && (
                 <Field
-                  label="每个倾向抽取几道题"
-                  hint={`本次共 ${draft.dimensions.length * 2 * draft.settings.perPole} 道题；必出题占用抽题名额。`}
+                  label={tr("每个倾向抽取几道题")}
+                  hint={tr("本次共 {p0} 道题；必出题占用抽题名额。", {
+                    p0: draft.dimensions.length * 2 * draft.settings.perPole,
+                  })}
                 >
                   <input
                     type="number"
@@ -1036,7 +1076,7 @@ export default function Editor({
                   />
                 </Field>
               )}
-              <Field label="每页题数">
+              <Field label={tr("每页题数")}>
                 <input
                   type="number"
                   min="1"
@@ -1057,11 +1097,11 @@ export default function Editor({
                   })
                 }
               >
-                打乱题目顺序
+                {tr("打乱题目顺序")}
               </Toggle>
               <Field
-                label="量表档数"
-                hint="修改档数会重置各档文案，包括单题自定义文案。"
+                label={tr("量表档数")}
+                hint={tr("修改档数会重置各档文案，包括单题自定义文案。")}
               >
                 <select
                   value={draft.settings.scalePoints}
@@ -1069,7 +1109,7 @@ export default function Editor({
                     const points = Number(e.target.value);
                     if (
                       window.confirm(
-                        "修改量表档数会重置所有量表文案，可撤销。继续？",
+                        tr("修改量表档数会重置所有量表文案，可撤销。继续？"),
                       )
                     )
                       mutate((d) => {
@@ -1081,14 +1121,20 @@ export default function Editor({
                       });
                   }}
                 >
-                  <option value={5}>5 档</option>
-                  <option value={7}>7 档</option>
+                  <option value={5}>{tr("5 档")}</option>
+                  <option value={7}>{tr("7 档")}</option>
                 </select>
               </Field>
               <div className="scale-editor">
                 {draft.settings.scaleLabels.map((label, i) => (
                   <Field
-                    label={`第 ${i + 1} 档${i === Math.floor(draft.settings.scalePoints / 2) ? " · 中立" : ""}`}
+                    label={tr("第 {p0} 档{p1}", {
+                      p0: i + 1,
+                      p1:
+                        i === Math.floor(draft.settings.scalePoints / 2)
+                          ? tr(" · 中立")
+                          : "",
+                    })}
                     key={i}
                   >
                     <input
@@ -1110,13 +1156,14 @@ export default function Editor({
                   })
                 }
               >
-                发布页面默认保留编辑入口
+                {tr("发布页面默认保留编辑入口")}
               </Toggle>
               <div className="tip">
                 <HelpCircle size={16} />
                 <p>
-                  编辑入口只修改访问者自己的浏览器草稿。上传新的 HTML
-                  或部署包，才会改变公开网站。
+                  {tr(
+                    "编辑入口只修改访问者自己的浏览器草稿。上传新的 HTML 或部署包，才会改变公开网站。",
+                  )}
                 </p>
               </div>
             </div>
@@ -1126,16 +1173,20 @@ export default function Editor({
               <div className="tip">
                 <LayoutTemplate size={17} />
                 <p>
-                  未填写专属评语的组合，会自动使用各维度的倾向解释。当前有{" "}
-                  {2 ** mainDimensions.length} 种主编码组合，不必全部填写。
+                  {tr(
+                    "未填写专属评语的组合，会自动使用各维度的倾向解释。当前有 {p0} 种主编码组合，不必全部填写。",
+                    { p0: 2 ** mainDimensions.length },
+                  )}
                 </p>
               </div>
               {draft.profiles.map((profile, index) => (
                 <article className="panel" key={profile.id}>
                   <div className="panel-toolbar">
-                    <span className="pill">专属评语 {index + 1}</span>
+                    <span className="pill">
+                      {tr("专属评语 {p0}", { p0: index + 1 })}
+                    </span>
                     <IconButton
-                      label={`删除评语 ${profile.name}`}
+                      label={tr("删除评语 {p0}", { p0: profile.name })}
                       onClick={() =>
                         mutate((d) => {
                           d.profiles.splice(index, 1);
@@ -1165,7 +1216,7 @@ export default function Editor({
                           }
                         >
                           <option value="" disabled>
-                            选择倾向
+                            {tr("选择倾向")}
                           </option>
                           {dim.poles.map((p) => (
                             <option key={p.id} value={p.id}>
@@ -1193,10 +1244,10 @@ export default function Editor({
                         })
                       }
                     >
-                      移除已不参与主编码的关联
+                      {tr("移除已不参与主编码的关联")}
                     </button>
                   )}
-                  <Field label="结果名称">
+                  <Field label={tr("结果名称")}>
                     <input
                       value={profile.name}
                       onChange={(e) =>
@@ -1206,7 +1257,7 @@ export default function Editor({
                       }
                     />
                   </Field>
-                  <Field label="完整评语">
+                  <Field label={tr("完整评语")}>
                     <textarea
                       rows={5}
                       value={profile.text}
@@ -1226,7 +1277,7 @@ export default function Editor({
                     }}
                   >
                     <Eye size={15} />
-                    预览这个组合
+                    {tr("预览这个组合")}
                   </button>
                 </article>
               ))}
@@ -1273,14 +1324,16 @@ export default function Editor({
                 }
               >
                 <Plus size={17} />
-                添加组合专属评语
+                {tr("添加组合专属评语")}
               </button>
             </>
           )}
           {section === "credits" && (
             <>
               <p className="panel-description">
-                两份署名分别控制。页面底部和下载的分享图使用相同设置，导出后会保留你的选择。
+                {tr(
+                  "两份署名分别控制。页面底部和下载的分享图使用相同设置，导出后会保留你的选择。",
+                )}
               </p>
               {[
                 ["original", "原项目作者"],
@@ -1288,7 +1341,7 @@ export default function Editor({
               ].map(([key, label]) => (
                 <div className="panel" key={key}>
                   <div className="panel-toolbar">
-                    <h2>{label}</h2>
+                    <h2>{tr(label)}</h2>
                     <Toggle
                       checked={draft.credits[key].visible}
                       onChange={(v) =>
@@ -1297,10 +1350,10 @@ export default function Editor({
                         })
                       }
                     >
-                      显示署名
+                      {tr("显示署名")}
                     </Toggle>
                   </div>
-                  <Field label={`${label}名称`}>
+                  <Field label={tr("{p0}名称", { p0: tr(label) })}>
                     <input
                       value={draft.credits[key].name}
                       onChange={(e) =>
@@ -1311,8 +1364,10 @@ export default function Editor({
                     />
                   </Field>
                   <Field
-                    label={`${label}链接`}
-                    hint="可留空；填写时使用完整的 https:// 或 http:// 地址。"
+                    label={tr("{p0}链接", { p0: tr(label) })}
+                    hint={tr(
+                      "可留空；填写时使用完整的 https:// 或 http:// 地址。",
+                    )}
                   >
                     <input
                       type="url"
@@ -1334,12 +1389,14 @@ export default function Editor({
                     }
                   >
                     <Trash2 size={15} />
-                    删除这项署名
+                    {tr("删除这项署名")}
                   </button>
                 </div>
               ))}
               <p className="hint">
-                页面署名可自由删除。软件和第三方依赖的许可证仍随发行文件保留。
+                {tr(
+                  "页面署名可自由删除。软件和第三方依赖的许可证仍随发行文件保留。",
+                )}
               </p>
             </>
           )}
@@ -1348,7 +1405,7 @@ export default function Editor({
           <div className="preview-toolbar">
             <div>
               <span className="status-dot" />
-              <b>实时预览</b>
+              <b>{tr("实时预览")}</b>
             </div>
             <div className="segmented">
               {[
@@ -1361,7 +1418,7 @@ export default function Editor({
                   className={preview === key ? "active" : ""}
                   onClick={() => setPreview(key)}
                 >
-                  {label}
+                  {tr(label)}
                 </button>
               ))}
             </div>
@@ -1375,7 +1432,7 @@ export default function Editor({
               }
             >
               <Eye size={15} />
-              完整试答
+              {tr("完整试答")}
             </button>
           </div>
           <div className="preview-scroll">
@@ -1407,8 +1464,8 @@ export default function Editor({
                     {preview === "quiz" && (
                       <>
                         <div className="preview-section-intro">
-                          <span className="eyebrow">题目预览</span>
-                          <h2>点击题干，跳到编辑位置</h2>
+                          <span className="eyebrow">{tr("题目预览")}</span>
+                          <h2>{tr("点击题干，跳到编辑位置")}</h2>
                         </div>
                         {draft.questions
                           .slice(0, draft.settings.perPage)
@@ -1465,20 +1522,20 @@ export default function Editor({
                 ) : (
                   <div className="empty-state">
                     <Shapes size={32} />
-                    <h3>把配置补完整，就能看到预览</h3>
-                    <p>{errors[0]?.message}</p>
+                    <h3>{tr("把配置补完整，就能看到预览")}</h3>
+                    <p>{tr(errors[0]?.i18n || errors[0]?.message)}</p>
                     <button
                       className="button secondary small"
                       onClick={() => locate(errors[0]?.section)}
                     >
-                      前往修改
+                      {tr("前往修改")}
                     </button>
                   </div>
                 )}
               </div>
             </div>
             <p className="preview-hint">
-              修改会即时显示。预览区里的标题、字母和题干可点击定位。
+              {tr("修改会即时显示。预览区里的标题、字母和题干可点击定位。")}
             </p>
           </div>
         </aside>
@@ -1502,18 +1559,21 @@ export default function Editor({
       >
         <div className="dialog-heading">
           <div>
-            <span className="eyebrow">让你的测试走出去</span>
-            <h2>导出与部署</h2>
+            <span className="eyebrow">{tr("让你的测试走出去")}</span>
+            <h2>{tr("导出与部署")}</h2>
           </div>
-          <IconButton label="关闭导出窗口" onClick={() => setShowExport(false)}>
+          <IconButton
+            label={tr("关闭导出窗口")}
+            onClick={() => setShowExport(false)}
+          >
             <X size={20} />
           </IconButton>
         </div>
         <Toggle checked={editableExport} onChange={setEditableExport}>
-          HTML / 部署包保留编辑入口
+          {tr("HTML / 部署包保留编辑入口")}
         </Toggle>
         <p className="hint">
-          关闭后，页面仅用于答题。建议同时下载 JSON，方便之后继续修改。
+          {tr("关闭后，页面仅用于答题。建议同时下载 JSON，方便之后继续修改。")}
         </p>
         <div className="export-options">
           <button
@@ -1522,8 +1582,8 @@ export default function Editor({
           >
             <Download size={22} />
             <div>
-              <b>单 HTML 文件</b>
-              <span>双击打开，离线答题和编辑。分享文件即可使用。</span>
+              <b>{tr("单 HTML 文件")}</b>
+              <span>{tr("双击打开，离线答题和编辑。分享文件即可使用。")}</span>
             </div>
             <ChevronRight size={18} />
           </button>
@@ -1533,8 +1593,8 @@ export default function Editor({
           >
             <LayoutTemplate size={22} />
             <div>
-              <b>静态部署包 ZIP</b>
-              <span>上传到 EdgeOne 等静态托管平台即可发布。</span>
+              <b>{tr("静态部署包 ZIP")}</b>
+              <span>{tr("上传到 EdgeOne 等静态托管平台即可发布。")}</span>
             </div>
             <ChevronRight size={18} />
           </button>
@@ -1544,16 +1604,18 @@ export default function Editor({
           >
             <FileJson size={22} />
             <div>
-              <b>项目配置 JSON</b>
-              <span>备份内容，或在另一份生成器中继续编辑。</span>
+              <b>{tr("项目配置 JSON")}</b>
+              <span>{tr("备份内容，或在另一份生成器中继续编辑。")}</span>
             </div>
             <ChevronRight size={18} />
           </button>
         </div>
         <p className="notice" role="status">
-          {exporting
-            ? "正在打包，请稍等…"
-            : message || "导出只包含测试内容，不包含答题记录或浏览器草稿。"}
+          {tr(
+            exporting
+              ? tr("正在打包，请稍等…")
+              : message || "导出只包含测试内容，不包含答题记录或浏览器草稿。",
+          )}
         </p>
       </dialog>
     </div>

@@ -1,10 +1,35 @@
 # 万能MBTI生成器
 
+**简体中文** · [English](README.en.md)
+
 把字母、倾向、题目和评语换成自己的想法，制作一份可以离线打开、也可以直接部署的倾向测试。
 
 [在线使用](https://moubit.github.io/universal-mbti-generator/) · [下载单 HTML](https://github.com/moubit/universal-mbti-generator/releases/latest/download/universal-mbti-generator.html) · [下载部署 ZIP](https://github.com/moubit/universal-mbti-generator/releases/latest/download/universal-mbti-generator-site.zip) · [所有版本](https://github.com/moubit/universal-mbti-generator/releases)
 
 [![部署到 EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Fmoubit%2Funiversal-mbti-generator)
+
+## 项目介绍
+
+万能MBTI生成器是一个开源的**倾向测试制作工具**，将测试网页和可视化编辑器放在同一个页面中。你可以用它制作生活方式、兴趣偏好、游戏风格、社群趣味测试等问卷：定义几个维度，为每个维度写下两个相对的倾向，再通过题目把答案转换成字母组合、倾向比例和结果评语。
+
+项目起源于 @某bit 的 MPTI 手机倾向测试。开源版将其中的问卷、评分、结果展示和编辑能力整理为通用工具，去掉了机型库、产品推荐和统计后台，让其他创作者也能用自己的内容制作一份独立测试。
+
+默认模板提供 **4 个维度、16 道题**，可以直接体验，也可以从空白四维模板开始。字母只负责展示，题目通过稳定编号与倾向关联，因此改字母、调整顺序时仍能保留原有关系。没有单独编写评语的结果，会自动组合各维度的解释；需要更有个性的结果时，可以为特定组合写专属名称和完整评语。
+
+编辑时可以实时查看首页、题目和结果，并完整试答自己的草稿。完成后，同一份内容既能导出为可离线打开、继续编辑的单 HTML，也能打包成可直接上传的静态网站。答题记录和草稿保存在浏览器本地，适合个人创作者、社区活动组织者，以及希望在此基础上继续开发的使用者。
+
+### 原版 MPTI 测试与相关视频
+
+下面的按钮直接打开目前运行中的 MPTI 测试站，和本仓库里的通用生成器、精简 MPTI 模板分别维护。
+
+[![进入 MPTI 手机倾向测试](docs/assets/mpti-button-zh.svg)](https://mpti.basebit.top/)
+
+MPTI 测试源于以下两期选手机视频，点击标题可直接前往 B 站观看：
+
+| 期数            | 视频                                                                        |
+| --------------- | --------------------------------------------------------------------------- |
+| 上篇 · 选购基础 | [0基础教会你选手机【上】](https://www.bilibili.com/video/BV1Z4he66EDs)      |
+| 下篇 · 品牌锐评 | [万字锐评，所有手机品牌【下】](https://www.bilibili.com/video/BV1MKpj6XEz1) |
 
 ## 不需要写代码
 
@@ -16,6 +41,12 @@
 单 HTML 内含完整程序、样式和模板，核心操作不依赖网络、CDN、账号或服务器。下载的 HTML 可以继续编辑，也可以关闭编辑入口，只用于答题。
 
 手机浏览器可以在线答题和编辑；手机系统对下载的 HTML 文件打开方式各不相同，本地双击使用建议在桌面浏览器完成。
+
+## 中英文界面
+
+页面默认使用「自动」语言设置：按浏览器语言偏好选择中文或英文；没有匹配项时使用英文。右上角可以随时选择 **自动 / 中文 / English**，手动选择会保存在当前浏览器中。
+
+语言切换仅影响菜单、按钮、操作提示和校验信息，不会翻译或修改测试标题、题目、量表选项、倾向名称、结果评语及作者信息，也不会切换当前页面、重置答案或丢失编辑内容。内置示例内容保持中文，作者可以自行填写任意语言的内容。语言偏好不写入项目 JSON；导出的 HTML 仍会按打开它的浏览器选择界面语言。
 
 ## 能编辑什么
 
@@ -102,6 +133,9 @@ release/template.json
 src/core.mjs           配置校验、评分、抽题、答题恢复
 src/Player.jsx         首页、答题、结果与分享图
 src/Editor.jsx         内容编辑、实时预览、本地草稿
+src/I18n.jsx           界面语言状态和手动切换
+src/i18n.mjs           浏览器语言识别与提示格式化
+src/locales/en.json    英文界面文案
 src/document.mjs       HTML 文档与配置序列化
 src/export.mjs         HTML / ZIP / JSON 下载
 src/templates/         通用示例与精简 MPTI 模板

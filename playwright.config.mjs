@@ -7,7 +7,11 @@ export default defineConfig({
   timeout: 45000,
   retries: 0,
   reporter: "list",
-  use: { baseURL: "http://127.0.0.1:5180", trace: "retain-on-failure" },
+  use: {
+    baseURL: "http://127.0.0.1:5180",
+    locale: "zh-CN",
+    trace: "retain-on-failure",
+  },
   projects: [
     {
       name: "chromium",

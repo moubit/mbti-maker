@@ -1,3 +1,4 @@
+import { MessageError } from "./i18n.mjs";
 import { LICENSE } from "./license.mjs";
 import { clone, validate } from "./core.mjs";
 
@@ -25,7 +26,8 @@ export function renderDocument(
   { editable = config.settings.showEditor } = {},
 ) {
   const errors = validate(config);
-  if (errors.length) throw new Error(errors.map((e) => e.message).join("\n"));
+  if (errors.length)
+    throw new MessageError(errors.map((e) => e.i18n || e.message));
   if (!runtime?.js || !runtime?.css)
     throw new Error("程序资源尚未就绪，请重新加载后导出。");
   const published = clone(config);

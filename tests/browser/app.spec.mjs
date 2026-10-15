@@ -134,7 +134,7 @@ test("editor changes letters and authors, exports portable HTML and ZIP, and kee
   expect(Object.keys(zip)).toContain("index.html");
   expect(Object.keys(zip)).toContain("LICENSE");
   expect(strFromU8(zip["index.html"])).toContain("可分享的自定义测试");
-  const context = await browser.newContext({ offline: true });
+  const context = await browser.newContext({ offline: true, locale: "zh-CN" });
   const offline = await context.newPage();
   const requests = [];
   offline.on("request", (r) => {

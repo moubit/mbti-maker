@@ -1,6 +1,6 @@
 {
   "name": "universal-mbti-generator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "万能MBTI生成器：自由编辑维度、字母、题目和评语，导出离线 HTML 或静态部署包。",

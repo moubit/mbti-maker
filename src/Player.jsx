@@ -1,3 +1,4 @@
+import { useI18n, LanguageSwitch } from "./I18n.jsx";
 import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
@@ -25,6 +26,7 @@ import {
 import { downloadFile, fileName } from "./export.mjs";
 
 export function Credits({ config, onEdit }) {
+  const { tr } = useI18n();
   const entries = [
     ["original", "原项目作者"],
     ["project", "项目作者"],
@@ -44,7 +46,7 @@ export function Credits({ config, onEdit }) {
     >
       {entries.map(([key, label]) => (
         <span key={key}>
-          {label}
+          {tr(label)}
           <span className="credit-dot">·</span>
           {safeUrl(config.credits[key].url) ? (
             <a
@@ -70,6 +72,7 @@ export function Home({
   resume = false,
   compact = false,
 }) {
+  const { tr } = useI18n();
   const mains = config.dimensions.filter((d) => d.role === "main");
   const count =
     config.settings.selection === "all"
@@ -79,7 +82,7 @@ export function Home({
     <section className={`home ${compact ? "compact-home" : ""}`}>
       <div className="hero-copy">
         <div className="eyebrow">
-          <span className="status-dot" /> 每一种倾向，都有自己的答案
+          <span className="status-dot" /> {tr("每一种倾向，都有自己的答案")}
         </div>
         <h1
           className={onEdit ? "editable-region" : ""}
@@ -90,37 +93,40 @@ export function Home({
         <p className="hero-description">{config.site.description}</p>
         <div className="hero-actions">
           <button className="button primary" onClick={onStart}>
-            {resume ? "继续上次测试" : config.site.startLabel || "开始测试"}
+            {resume
+              ? tr("继续上次测试")
+              : config.site.startLabel || tr("开始测试")}
             <ArrowRight size={18} />
           </button>
           {onEdit && (
             <button className="button secondary" onClick={() => onEdit("site")}>
               <Pencil size={16} />
-              编辑我的测试
+              {tr("编辑我的测试")}
             </button>
           )}
         </div>
         <div className="hero-stats">
           <span>
-            <b>{count.toString().padStart(2, "0")}</b> 道题目
+            <b>{count.toString().padStart(2, "0")}</b> {tr("道题目")}
           </span>
           <span>
-            <b>{config.dimensions.length.toString().padStart(2, "0")}</b> 个维度
+            <b>{config.dimensions.length.toString().padStart(2, "0")}</b>{" "}
+            {tr("个维度")}
           </span>
           <span>
-            <b>{Math.max(1, Math.ceil(count / 5))}</b> 分钟探索
+            <b>{Math.max(1, Math.ceil(count / 5))}</b> {tr("分钟探索")}
           </span>
         </div>
       </div>
       <div
         className="hero-art"
-        aria-label="测试维度示意"
+        aria-label={tr("测试维度示意")}
         onClick={() => onEdit?.("dimensions")}
       >
         <div className="orbit orbit-one" />
         <div className="orbit orbit-two" />
         <div className="art-note">
-          <Sparkles size={15} /> 没有标准答案
+          <Sparkles size={15} /> {tr("没有标准答案")}
         </div>
         <div className="type-tiles">
           {mains.slice(0, 4).map((dim, i) => (
@@ -135,15 +141,19 @@ export function Home({
         <div className="art-caption">
           <span className="tiny-star">✳</span>
           <div>
-            <b>你的组合，由你定义</b>
-            <span>每一面，都值得被看见。</span>
+            <b>{tr("你的组合，由你定义")}</b>
+            <span>{tr("每一面，都值得被看见。")}</span>
           </div>
         </div>
       </div>
       <div className="home-bottom">
         <div className="home-note">
           <Shapes size={18} />
-          <span>{config.dimensions.length} 个维度，发现不同的自己</span>
+          <span>
+            {tr("{p0} 个维度，发现不同的自己", {
+              p0: config.dimensions.length,
+            })}
+          </span>
         </div>
         <p className="disclaimer">{config.site.disclaimer}</p>
       </div>
@@ -160,6 +170,7 @@ export function Question({
   missing,
   onEdit,
 }) {
+  const { tr } = useI18n();
   const labels = question.labels || config.settings.scaleLabels;
   return (
     <fieldset
@@ -201,7 +212,7 @@ export function Question({
           </label>
         ))}
       </div>
-      {missing && <p className="field-error">请选择一个答案后继续。</p>}
+      {missing && <p className="field-error">{tr("请选择一个答案后继续。")}</p>}
     </fieldset>
   );
 }
@@ -213,6 +224,7 @@ export function ResultView({
   onRestart,
   onEdit,
 }) {
+  const { tr } = useI18n();
   const cardRef = useRef(null);
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
@@ -269,10 +281,10 @@ export function ResultView({
     <section className="result-page">
       <div className="result-topline">
         <span className="eyebrow">
-          {preview ? "结果预览 · 示例比例" : "探索完成"}
+          {preview ? tr("结果预览 · 示例比例") : tr("探索完成")}
         </span>
         <span className="result-stamp">
-          <Sparkles size={15} /> 每一面都是你
+          <Sparkles size={15} /> {tr("每一面都是你")}
         </span>
       </div>
       <div className="result-sheet" ref={cardRef}>
@@ -286,7 +298,10 @@ export function ResultView({
         >
           {config.site.resultIntro}
         </p>
-        <div className="result-code" aria-label={`结果 ${result.code}`}>
+        <div
+          className="result-code"
+          aria-label={tr("结果 {p0}", { p0: result.code })}
+        >
           {ordered.map((t, i) => (
             <React.Fragment key={t.dimension.id}>
               {t.dimension.role === "suffix" &&
@@ -294,7 +309,7 @@ export function ResultView({
                   <span className="code-separator">-</span>
                 )}
               <button
-                aria-label={`查看 ${t.winner.code} 的含义`}
+                aria-label={tr("查看 {p0} 的含义", { p0: t.winner.code })}
                 aria-expanded={openPole === t.dimension.id}
                 title={`${t.dimension.name} · ${t.winner.name}`}
                 onClick={() =>
@@ -338,9 +353,9 @@ export function ResultView({
         )}
         <div className="tendencies">
           <div className="section-caption">
-            <span>倾向分布</span>
+            <span>{tr("倾向分布")}</span>
             <small>
-              {preview ? "示例比例，仅用于预览" : "比例来自本次作答"}
+              {preview ? tr("示例比例，仅用于预览") : tr("比例来自本次作答")}
             </small>
           </div>
           {result.tendencies.map(
@@ -348,7 +363,7 @@ export function ResultView({
               <div className="tendency" key={dimension.id}>
                 <div className="tendency-title">
                   <strong>{dimension.name}</strong>
-                  <span>{tied ? "两侧均衡" : winner.name}</span>
+                  <span>{tied ? tr("两侧均衡") : winner.name}</span>
                 </div>
                 <div
                   className="tendency-bar"
@@ -368,7 +383,9 @@ export function ResultView({
                 </div>
                 {tied && (
                   <small className="tie-note">
-                    按设置采用 {winner.code}；倾向仍为 50% / 50%。
+                    {tr("按设置采用 {p0}；倾向仍为 50% / 50%。", {
+                      p0: winner.code,
+                    })}
                   </small>
                 )}
               </div>
@@ -387,19 +404,19 @@ export function ResultView({
               disabled={busy}
             >
               <Download size={17} />
-              {busy ? "生成中…" : "下载分享图"}
+              {busy ? tr("生成中…") : tr("下载分享图")}
             </button>
             <button className="button secondary" onClick={copy}>
               <Copy size={17} />
-              复制结果
+              {tr("复制结果")}
             </button>
             <button className="button text-button" onClick={onRestart}>
               <RotateCcw size={16} />
-              重新测试
+              {tr("重新测试")}
             </button>
           </div>
           <p className="status-message" role="status">
-            {message}
+            {tr(message)}
           </p>
         </>
       )}
@@ -408,6 +425,7 @@ export function ResultView({
 }
 
 export default function Player({ config, onEdit, onBack }) {
+  const { tr } = useI18n();
   const [session, setSession] = useState(() =>
     restoreSession(readStorage(sessionStorageKey(config)), config),
   );
@@ -461,14 +479,15 @@ export default function Player({ config, onEdit, onBack }) {
           </span>
           <span>
             {config.site.title}
-            <small>发现每一种可能</small>
+            <small>{tr("发现每一种可能")}</small>
           </span>
         </button>
         <nav>
+          <LanguageSwitch />
           {onBack && (
             <button className="button secondary small" onClick={onBack}>
               <ArrowLeft size={15} />
-              返回编辑
+              {tr("返回编辑")}
             </button>
           )}
           {config.settings.showEditor && onEdit && (
@@ -477,14 +496,14 @@ export default function Player({ config, onEdit, onBack }) {
               onClick={() => onEdit("site")}
             >
               <Pencil size={15} />
-              编辑
+              {tr("编辑")}
             </button>
           )}
         </nav>
       </header>
       {onBack && (
         <div className="draft-banner">
-          正在试答本地草稿，公开网站内容未改变。
+          {tr("正在试答本地草稿，公开网站内容未改变。")}
         </div>
       )}
       <main className="site-main">
@@ -499,21 +518,27 @@ export default function Player({ config, onEdit, onBack }) {
         {session.view === "quiz" && (
           <section className="quiz-page">
             <div className="quiz-heading">
-              <span className="eyebrow">按你的直觉，慢慢选择</span>
-              <h1>这一面，更像你吗？</h1>
-              <p>没有对错；越靠近两端，倾向越明显。</p>
+              <span className="eyebrow">{tr("按你的直觉，慢慢选择")}</span>
+              <h1>{tr("这一面，更像你吗？")}</h1>
+              <p>{tr("没有对错；越靠近两端，倾向越明显。")}</p>
             </div>
             <div className="quiz-progress">
               <span>
-                第 {session.page + 1} / {groupCount} 组
+                {tr("第 {p0} / {p1} 组", {
+                  p0: session.page + 1,
+                  p1: groupCount,
+                })}
               </span>
               <span>
-                已完成 {answered} / {selected.length} 题
+                {tr("已完成 {p0} / {p1} 题", {
+                  p0: answered,
+                  p1: selected.length,
+                })}
               </span>
               <progress
                 max={selected.length}
                 value={answered}
-                aria-label="答题进度"
+                aria-label={tr("答题进度")}
               />
             </div>
             <div className="question-list">
@@ -548,10 +573,12 @@ export default function Player({ config, onEdit, onBack }) {
                 }}
               >
                 <ArrowLeft size={17} />
-                {session.page ? "上一组" : "返回首页"}
+                {session.page ? tr("上一组") : tr("返回首页")}
               </button>
               <button className="button primary" onClick={next}>
-                {session.page === groupCount - 1 ? "查看我的结果" : "下一组"}
+                {session.page === groupCount - 1
+                  ? tr("查看我的结果")
+                  : tr("下一组")}
                 <ArrowRight size={17} />
               </button>
             </div>
@@ -567,7 +594,7 @@ export default function Player({ config, onEdit, onBack }) {
       </main>
       {storageFailed && (
         <p className="storage-note" role="status">
-          浏览器无法保存答题进度，关闭页面后需要重新开始。
+          {tr("浏览器无法保存答题进度，关闭页面后需要重新开始。")}
         </p>
       )}
       {session.view !== "result" && <Credits config={config} />}

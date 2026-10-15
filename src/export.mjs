@@ -48,8 +48,8 @@ export async function exportZip(config, editable) {
     "index.html": strToU8(html),
     LICENSE: strToU8(LICENSE),
     "THIRD_PARTY_NOTICES.txt": strToU8(resources.licenses),
-    "部署说明.txt": strToU8(
-      "将这个 ZIP 上传到支持静态网站的托管平台即可。index.html 已在压缩包根目录。\n更新网站：在编辑器修改后重新导出并上传。浏览器草稿不会更新公开网站。\n此包不含答题记录、浏览器草稿或后台服务。\n",
+    "DEPLOYMENT.txt": strToU8(
+      "将这个 ZIP 上传到支持静态网站的托管平台即可。index.html 已在压缩包根目录。\n更新网站：在编辑器修改后重新导出并上传。浏览器草稿不会更新公开网站。\n此包不含答题记录、浏览器草稿或后台服务。\n\nUpload this ZIP to a static hosting provider. index.html is already at the archive root.\nTo update your site, edit, export, and upload a new package. Local drafts do not update the published site.\nThis package contains no answers, browser draft history, or backend service.\n",
     ),
   };
   downloadFile(

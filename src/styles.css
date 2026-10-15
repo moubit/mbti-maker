@@ -2407,3 +2407,117 @@ select {
 .hero-copy h1 {
   text-wrap: balance;
 }
+
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #ffffffb0;
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.language-switch select {
+  width: 75px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-size: 11px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+.editor-brand {
+  flex-shrink: 1;
+  min-width: 0;
+}
+.editor-brand > div {
+  min-width: 0;
+}
+.editor-brand b {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.editor-header-actions {
+  flex-shrink: 0;
+}
+.editor-layout > * {
+  min-width: 0;
+}
+.editor-sidebar nav button > span {
+  min-width: 0;
+  line-height: 1.5;
+}
+.hero-stats span {
+  flex-wrap: wrap;
+}
+:lang(en) .editor-sidebar nav button {
+  font-size: 11px;
+}
+:lang(en) .sidebar-bottom button,
+:lang(en) .sidebar-bottom a {
+  font-size: 10px;
+}
+:lang(en) .preview-toolbar {
+  flex-wrap: wrap;
+}
+:lang(en) .preview-content .result-topline {
+  flex-wrap: wrap;
+}
+:lang(en) .art-note,
+:lang(en) .art-caption {
+  letter-spacing: 0;
+}
+@media (max-width: 650px) {
+  .language-switch {
+    gap: 4px;
+    padding: 6px;
+  }
+  .language-switch select {
+    width: 67px;
+    font-size: 10px;
+  }
+  .language-switch svg {
+    width: 14px;
+  }
+  .site-header {
+    gap: 12px;
+  }
+  .site-header .brand {
+    min-width: 0;
+  }
+  .site-header nav {
+    gap: 5px;
+  }
+  .editor-header {
+    height: 112px;
+    flex-wrap: wrap;
+    align-content: center;
+    gap: 10px;
+  }
+  .editor-brand {
+    flex-basis: 100%;
+  }
+  .editor-header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .editor-layout {
+    height: calc(100svh - 154px);
+    grid-template-columns: minmax(0, 1fr);
+  }
+  :lang(en) .preview-toolbar > div:first-child {
+    font-size: 9px;
+  }
+  :lang(en) .editor-sidebar nav button {
+    font-size: 10px;
+  }
+  :lang(en) .sidebar-bottom button {
+    font-size: 9px;
+  }
+  :lang(en) .tendency-title {
+    align-items: flex-start;
+  }
+}

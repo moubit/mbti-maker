@@ -5,6 +5,21 @@ import Editor from "./Editor.jsx";
 import { fingerprint, parseConfig } from "./core.mjs";
 import template from "../template.json";
 import "./styles.css";
+import { I18nProvider, useI18n } from "./I18n.jsx";
+
+function ErrorScreen({ error }) {
+  const { tr } = useI18n();
+  return (
+    <main className="fatal-error">
+      <h1>{tr("暂时无法打开这个测试")}</h1>
+      <p>{tr(error.messages || error.message)}</p>
+      <p>{tr("请重新打开原始 HTML，或检查配置文件。")}</p>
+      <button className="button primary" onClick={() => location.reload()}>
+        {tr("重新加载")}
+      </button>
+    </main>
+  );
+}
 
 class ErrorBoundary extends Component {
   state = { error: null };
@@ -13,14 +28,7 @@ class ErrorBoundary extends Component {
   }
   render() {
     return this.state.error ? (
-      <main className="fatal-error">
-        <h1>暂时无法打开这个测试</h1>
-        <p>{this.state.error.message}</p>
-        <p>请重新打开原始 HTML，或检查配置文件。</p>
-        <button className="button primary" onClick={() => location.reload()}>
-          重新加载
-        </button>
-      </main>
+      <ErrorScreen error={this.state.error} />
     ) : (
       this.props.children
     );
@@ -92,7 +100,9 @@ function App() {
 }
 
 createRoot(document.getElementById("root")).render(
-  <ErrorBoundary>
-    <App />
-  </ErrorBoundary>,
+  <I18nProvider>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </I18nProvider>,
 );
