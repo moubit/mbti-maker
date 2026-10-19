@@ -1,16 +1,16 @@
-# 万能MBTI生成器
+# MBTI Maker
 
 **简体中文** · [English](README.en.md)
 
 把字母、倾向、题目和评语换成自己的想法，制作一份可以离线打开、也可以直接部署的倾向测试。
 
-[在线使用](https://moubit.github.io/universal-mbti-generator/) · [下载单 HTML](https://github.com/moubit/universal-mbti-generator/releases/latest/download/universal-mbti-generator.html) · [下载部署 ZIP](https://github.com/moubit/universal-mbti-generator/releases/latest/download/universal-mbti-generator-site.zip) · [所有版本](https://github.com/moubit/universal-mbti-generator/releases)
+[在线使用](https://moubit.github.io/mbti-maker/) · [下载单 HTML](https://github.com/moubit/mbti-maker/releases/latest/download/mbti-maker.html) · [下载部署 ZIP](https://github.com/moubit/mbti-maker/releases/latest/download/mbti-maker-site.zip) · [所有版本](https://github.com/moubit/mbti-maker/releases)
 
-[![部署到 EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Fmoubit%2Funiversal-mbti-generator)
+[![部署到 EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Fmoubit%2Fmbti-maker)
 
 ## 项目介绍
 
-万能MBTI生成器是一个开源的**倾向测试制作工具**，将测试网页和可视化编辑器放在同一个页面中。你可以用它制作生活方式、兴趣偏好、游戏风格、社群趣味测试等问卷：定义几个维度，为每个维度写下两个相对的倾向，再通过题目把答案转换成字母组合、倾向比例和结果评语。
+MBTI Maker（原「万能MBTI生成器」）是一个开源的**倾向测试制作工具**，将测试网页和可视化编辑器放在同一个页面中。你可以用它制作生活方式、兴趣偏好、游戏风格、社群趣味测试等问卷：定义几个维度，为每个维度写下两个相对的倾向，再通过题目把答案转换成字母组合、倾向比例和结果评语。
 
 项目起源于 @某bit 的 MPTI 手机倾向测试。开源版将其中的问卷、评分、结果展示和编辑能力整理为通用工具，去掉了机型库、产品推荐和统计后台，让其他创作者也能用自己的内容制作一份独立测试。
 
@@ -121,9 +121,8 @@ npm run test:browser
 
 ```text
 dist/                                  静态部署目录
-release/万能MBTI生成器.html              本地使用的单文件
-release/universal-mbti-generator.html   GitHub 发行文件
-release/universal-mbti-generator-site.zip
+release/mbti-maker.html                 离线单文件与 GitHub 发行文件
+release/mbti-maker-site.zip
 release/template.json
 ```
 

@@ -32,7 +32,6 @@
   "文件已导出，可以在另一台电脑打开或部署。": "File exported. You can open it on another computer or deploy it.",
   "导出失败，请重试。": "Export failed. Please try again.",
   "删除「{p0}」会同时删除 {p1} 道关联题目和 {p2} 条专属评语。确认删除？可用撤销恢复。": "Deleting “{p0}” will also delete {p1} linked questions and {p2} custom results. Delete them? You can undo this.",
-  "万能MBTI生成器": "Universal MBTI Generator",
   "让每一个好问题，都有自己的页面。": "Give every good question a place to live.",
   "撤销修改": "Undo changes",
   "重做修改": "Redo changes",

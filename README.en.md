@@ -1,16 +1,16 @@
-# Universal MBTI Generator
+# MBTI Maker
 
 [简体中文](README.md) · **English**
 
 Create your own preference test by editing its letters, poles, questions, and feedback. Share it as an offline HTML file or deploy it as a static website.
 
-[Use online](https://moubit.github.io/universal-mbti-generator/) · [Download HTML](https://github.com/moubit/universal-mbti-generator/releases/latest/download/universal-mbti-generator.html) · [Download site ZIP](https://github.com/moubit/universal-mbti-generator/releases/latest/download/universal-mbti-generator-site.zip) · [Releases](https://github.com/moubit/universal-mbti-generator/releases)
+[Use online](https://moubit.github.io/mbti-maker/) · [Download HTML](https://github.com/moubit/mbti-maker/releases/latest/download/mbti-maker.html) · [Download site ZIP](https://github.com/moubit/mbti-maker/releases/latest/download/mbti-maker-site.zip) · [Releases](https://github.com/moubit/mbti-maker/releases)
 
-[![Deploy to EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Fmoubit%2Funiversal-mbti-generator)
+[![Deploy to EdgeOne](https://cdnstatic.tencentcs.com/edgeone/pages/deploy.svg)](https://edgeone.ai/pages/new?repository-url=https%3A%2F%2Fgithub.com%2Fmoubit%2Fmbti-maker)
 
 ## About the project
 
-Universal MBTI Generator is an open-source **preference-test builder** with a test player and visual editor on the same page. Use it to create quizzes about lifestyles, interests, gaming styles, or community topics. Define a set of dimensions, give each dimension two opposing poles, and write questions that turn answers into a type code, preference percentages, and personalized feedback.
+MBTI Maker is an open-source **preference-test builder** with a test player and visual editor on the same page. Use it to create quizzes about lifestyles, interests, gaming styles, or community topics. Define a set of dimensions, give each dimension two opposing poles, and write questions that turn answers into a type code, preference percentages, and personalized feedback.
 
 The project grew out of @某bit’s MPTI phone-preference test. This edition makes its questionnaire, scoring, result presentation, and editing capabilities reusable. It leaves out the phone catalog, product recommendations, and analytics backend so that other creators can build independent tests around their own content.
 
@@ -121,9 +121,8 @@ Build outputs:
 
 ```text
 dist/                                  Static deployment directory
-release/万能MBTI生成器.html              Local standalone HTML
-release/universal-mbti-generator.html   GitHub release HTML
-release/universal-mbti-generator-site.zip
+release/mbti-maker.html                 Standalone HTML and GitHub release asset
+release/mbti-maker-site.zip
 release/template.json
 ```
 

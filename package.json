@@ -1,9 +1,9 @@
 {
-  "name": "universal-mbti-generator",
-  "version": "1.1.0",
+  "name": "mbti-maker",
+  "version": "1.1.1",
   "private": true,
   "type": "module",
-  "description": "万能MBTI生成器：自由编辑维度、字母、题目和评语，导出离线 HTML 或静态部署包。",
+  "description": "MBTI Maker：自由编辑维度、字母、题目和评语，导出离线 HTML 或静态部署包。",
   "license": "MIT",
   "engines": {
     "node": ">=22.12.0"

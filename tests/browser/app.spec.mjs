@@ -122,7 +122,7 @@ test("editor changes letters and authors, exports portable HTML and ZIP, and kee
     fullPage: true,
   });
   await page.getByRole("button", { name: "退出编辑" }).click();
-  await expect(page.locator(".brand")).toContainText("万能MBTI生成器");
+  await expect(page.locator(".brand")).toContainText("MBTI Maker");
   await edit(page);
   await expect(page.getByLabel("测试名称", { exact: true })).toHaveValue(
     "可分享的自定义测试",

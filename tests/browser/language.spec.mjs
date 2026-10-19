@@ -18,6 +18,7 @@ test("English UI covers editor tabs and errors, and switching preserves edits an
     project.site.subtitle,
   );
   await page.getByRole("button", { name: "Edit", exact: true }).click();
+  await expect(page.locator(".editor-brand b")).toHaveText("MBTI Maker");
   await expect(page.getByLabel("Test name", { exact: true })).toHaveValue(
     project.site.title,
   );

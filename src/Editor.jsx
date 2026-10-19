@@ -364,7 +364,7 @@ export default function Editor({
             <Shapes size={22} />
           </span>
           <div>
-            <b>{tr("万能MBTI生成器")}</b>
+            <b>MBTI Maker</b>
             <span>{tr("让每一个好问题，都有自己的页面。")}</span>
           </div>
         </div>
@@ -473,7 +473,7 @@ export default function Editor({
               hidden
             />
             <a
-              href="https://github.com/moubit/universal-mbti-generator"
+              href="https://github.com/moubit/mbti-maker"
               target="_blank"
               rel="noopener noreferrer"
             >

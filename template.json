@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "lifestyle-starter",
   "site": {
-    "title": "万能MBTI生成器",
+    "title": "MBTI Maker",
     "subtitle": "把好奇，\n变成一场测试。",
     "description": "先用 16 道题，看看你的生活玩家类型。也可以点开编辑，把字母、倾向、题目和评语换成自己的想法。",
     "disclaimer": "这是一个自定义倾向测试示例，仅供娱乐与自我探索，不是专业心理测评。",

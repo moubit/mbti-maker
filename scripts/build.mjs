@@ -56,19 +56,19 @@ const runtime = {
 };
 const html = renderDocument(config, runtime);
 await rm("dist", { recursive: true, force: true });
+await rm("release", { recursive: true, force: true });
 await mkdir("dist", { recursive: true });
 await mkdir("release", { recursive: true });
 await writeFile("dist/index.html", html);
 await writeFile("dist/LICENSE", LICENSE);
 await writeFile("dist/THIRD_PARTY_NOTICES.txt", thirdParty);
-await writeFile("release/万能MBTI生成器.html", html);
-await writeFile("release/universal-mbti-generator.html", html);
+await writeFile("release/mbti-maker.html", html);
 await writeFile(
   "release/template.json",
   JSON.stringify(config, null, 2) + "\n",
 );
 await writeFile(
-  "release/universal-mbti-generator-site.zip",
+  "release/mbti-maker-site.zip",
   zipSync({
     "index.html": strToU8(html),
     LICENSE: strToU8(LICENSE),
